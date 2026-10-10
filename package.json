@@ -1,0 +1,23 @@
+{
+  "name": "minik-odak",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Minik Odak: 3D karakterli kişisel pomodoro uygulaması (PWA + Android)",
+  "scripts": {
+    "serve": "npx --yes http-server docs -p 8080 -c-1",
+    "android:init": "npx cap add android && npm run assets",
+    "assets": "npx capacitor-assets generate --android --iconBackgroundColor '#f6c79a' --splashBackgroundColor '#fbeedf'",
+    "android:sync": "npx cap sync android",
+    "android:open": "npx cap open android",
+    "deploy:web": "npx --yes firebase-tools deploy --only hosting,firestore:rules"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/local-notifications": "^7.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^7.0.0"
+  }
+}

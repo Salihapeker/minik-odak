@@ -1,0 +1,13 @@
+{
+  "appId": "com.minikodak.app",
+  "appName": "Minik Odak",
+  "webDir": "docs",
+  "android": {
+    "backgroundColor": "#fbeedf"
+  },
+  "plugins": {
+    "LocalNotifications": {
+      "iconColor": "#c4683b"
+    }
+  }
+}
