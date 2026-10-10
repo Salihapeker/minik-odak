@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Minik Odak · Gizlilik Politikası</title>
+<style>
+  :root{--bg:#fbeedf;--ink:#3b2417;--muted:#8c6a54;--accent:#c4683b;--card:#fff8f0}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Nunito","Segoe UI",system-ui,sans-serif}
+  main{max-width:720px;margin:0 auto;padding:32px 20px 64px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 4px}
+  h2{font-size:20px;margin:32px 0 8px}
+  .sub{color:var(--muted);margin:0 0 24px}
+  .card{background:var(--card);border-radius:18px;padding:16px 18px}
+  a{color:var(--accent)}
+  li{margin:4px 0}
+</style>
+</head>
+<body>
+<main>
+  <h1>Minik Odak Gizlilik Politikası</h1>
+  <p class="sub">Son güncelleme: 8 Ekim 2026</p>
+
+  <div class="card">Kısaca: Minik Odak reklam göstermez, verini satmaz, kimseyle paylaşmaz. Verin sadece uygulamayı çalıştırmak için ve sadece sana görünecek şekilde saklanır.</div>
+
+  <h2>Hangi verileri saklıyoruz?</h2>
+  <ul>
+    <li><b>Uygulama verileri:</b> seans süreleri, ruh hali seçimlerin, gün planın, pano kartların, notların, hatırlatmaların, öğrendiğin konular, seviye ve yıldızların, ayarların.</li>
+    <li><b>Karakter fotoğrafı (isteğe bağlı):</b> Fotoğraf yüklersen yüzün küçük bir görüntüye çevrilir ve sadece bu küçültülmüş hali saklanır. Orijinal fotoğraf saklanmaz.</li>
+    <li><b>Hatırlatmalar (isteğe bağlı):</b> Kendi yazdığın ilaç/su hatırlatmaları ve hangi saatlerde "içtim" dediğin.</li>
+    <li><b>Hesap (isteğe bağlı):</b> Cihazlar arası eşitleme için hesap oluşturursan e-posta adresin. Şifren Google Firebase tarafından güvenli şekilde tutulur, bizim tarafımızdan görülemez.</li>
+    <li><b>Ortak odalar:</b> Bir odaya girersen o odadakiler takma adını, rengini, o anki durumunu (odakta/molada), seans niyetini ve bugünkü seans sayını görür. Odadan çıkınca bu kayıt silinir.</li>
+  </ul>
+
+  <h2>Veriler nerede tutuluyor?</h2>
+  <p>Verilerin önce kendi cihazında tutulur. Eşitleme açıksa ayrıca Google Firebase (Cloud Firestore) üzerinde, sadece senin hesabının okuyup yazabildiği bir alanda saklanır. Güvenlik kuralları gereği başka kullanıcılar ve uygulama geliştiricisi dahil kimse bu alana uygulama üzerinden erişemez. Veriler aktarım sırasında şifrelenir (HTTPS).</p>
+
+  <h2>Kimlerle paylaşılıyor?</h2>
+  <p>Hiç kimseyle. Reklam, analiz ya da takip aracı kullanılmaz. Altyapı sağlayıcısı olarak Google Firebase kullanılır (<a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase gizlilik bilgileri</a>).</p>
+
+  <h2>Bildirimler</h2>
+  <p>Android uygulaması sayaç bitişi ve senin kurduğun hatırlatmalar için cihazında yerel bildirim kurar. Bildirimler internetten gönderilmez, cihazında oluşturulur.</p>
+
+  <h2 id="hesap-silme">Hesap ve veri silme</h2>
+  <ul>
+    <li><b>Uygulama içinden:</b> Ben → Hesap ve eşitleme → <b>Hesabımı sil</b>. Hesabın ve buluttaki tüm verilerin kalıcı olarak silinir.</li>
+    <li><b>Sadece bu cihazdaki veriler:</b> Ben → Verilerim → <b>Her şeyi sıfırla</b>.</li>
+    <li><b>E-posta ile:</b> Uygulamaya erişemiyorsan <a href="https://github.com/Salihapeker/minik-odak/issues/new?title=Hesap%20silme%20talebi" target="_blank" rel="noopener">buradan bir silme talebi aç</a> (e-posta adresini yazma; sadece talebini belirt, seninle iletişime geçilir). Talepler 30 gün içinde işlenir.</li>
+  </ul>
+
+  <h2>Çocuklar</h2>
+  <p>Minik Odak 13 yaş altındaki çocuklara yönelik değildir ve bilerek onlardan veri toplamaz.</p>
+
+  <h2>Değişiklikler ve iletişim</h2>
+  <p>Bu politika değişirse bu sayfa güncellenir. Soruların için: <a href="https://github.com/Salihapeker/minik-odak/issues" target="_blank" rel="noopener">github.com/Salihapeker/minik-odak/issues</a></p>
+</main>
+</body>
+</html>
