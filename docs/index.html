@@ -2370,7 +2370,10 @@ const MORE_TOPICS = {
 for (const c in MORE_TOPICS) MORE_TOPICS[c].forEach(([n, h]) => CONCEPTS.push([n, c, h]));
 const CATN = {ai:"Yapay zeka", sw:"Yazılım", bilim:"Bilim", psiko:"Psikoloji & beyin", saglik:"Sağlık & beden", eko:"Ekonomi & para", is:"İş & verimlilik", tarih:"Tarih", felsefe:"Felsefe", sanat:"Sanat & tasarım", dil:"Dil & edebiyat", doga:"Doğa & çevre", mine:"Benim listem"};
 const CAT_KEYS = Object.keys(CATN);
-const selCats = () => { const c = Array.isArray(S.cats) && S.cats.length ? S.cats.filter(k => CATN[k]) : CAT_KEYS; return c.length ? c : CAT_KEYS; };
+const DEFAULT_CATS = ["ai", "sw"];
+const CAT_PRESETS = [["tek", "Yapay zeka & yazılım", ["ai", "sw"]], ["karisik", "Karışık (her alandan)", CAT_KEYS.filter(k => k !== "mine")]];
+const selCats = () => { const c = Array.isArray(S.cats) && S.cats.length ? S.cats.filter(k => CATN[k]) : DEFAULT_CATS; return c.length ? c : DEFAULT_CATS; };
+const catLabel = cats => { const key = cats.slice().sort().join(); const pr = CAT_PRESETS.find(p => p[2].slice().sort().join() === key); return pr ? pr[1] : cats.length === 1 ? CATN[cats[0]] : cats.length + " alan"; };
 function conceptPool(){
   const cats = new Set(selCats());
   const mine = cats.has("mine") ? S.myConcepts.map(n => [n, "mine", ""]) : [];
@@ -2418,10 +2421,13 @@ function renderModes(){
   const c = S.concept, q = encodeURIComponent(c.name.replace(/\(.*?\)/g, "").trim()), tech = c.cat === "ai" || c.cat === "sw", cats = selCats();
   card.innerHTML = `<div class="concept glass">
     <div class="row" style="justify-content:space-between"><span class="tag">${CATN[c.cat] || "Konu"}</span>
-      <button class="pill" id="cCats" style="font-size:12px;padding:5px 11px">Konular · ${cats.length === CAT_KEYS.length ? "hepsi" : cats.length}</button></div>
-    <div id="catBox" hidden><div class="label" style="margin-bottom:6px">Hangi alanlardan konu gelsin?</div>
+      <button class="pill" id="cCats" style="font-size:12px;padding:5px 11px">Konular: ${esc(catLabel(cats))} ▾</button></div>
+    <div id="catBox" hidden>
+      <div class="label" style="margin-bottom:6px">Hazır seçimler</div>
+      <div class="opts" style="margin-bottom:10px">${CAT_PRESETS.map(([k, l]) => `<button data-preset="${k}" style="padding:5px 11px;font-size:12px">${l}</button>`).join("")}</div>
+      <div class="label" style="margin-bottom:6px">Ya da alanları tek tek seç</div>
       <div class="opts">${CAT_KEYS.map(k => `<button data-cat="${k}" aria-pressed="${cats.includes(k)}" style="padding:5px 11px;font-size:12px">${CATN[k]}</button>`).join("")}</div>
-      <div class="row" style="margin-top:8px"><button class="pill" id="catAll" style="font-size:12px">Hepsini seç</button><button class="pill primary" id="catOk" style="font-size:12px">Tamam</button></div></div>
+      <div class="row" style="margin-top:8px"><button class="pill primary" id="catOk" style="font-size:12px">Tamam</button></div></div>
     <h3>${esc(c.name)}</h3>
     <p class="rule"><b>Kural:</b> ${S.ar.r} dakika yapay zekaya sormadan kendin araştır. Kitap, ansiklopedi, makale, video, resmi kaynaklar serbest. Süre bitince ${S.ar.e} dakikada konuyu hiç bilmeyen birine anlatır gibi kendi cümlelerinle anlatacaksın.</p>
     <div class="links">
@@ -2440,10 +2446,17 @@ function renderModes(){
     if (!draftCats.size){ draftCats.add(k); return toast("En az bir alan seçili kalmalı"); }
     b.setAttribute("aria-pressed", draftCats.has(k));
   });
-  $("#catAll").onclick = () => { draftCats = new Set(CAT_KEYS); card.querySelectorAll("[data-cat]").forEach(b => b.setAttribute("aria-pressed", "true")); };
+  const markPreset = () => card.querySelectorAll("[data-preset]").forEach(b => { const pr = CAT_PRESETS.find(p => p[0] === b.dataset.preset)[2]; b.setAttribute("aria-pressed", pr.length === draftCats.size && pr.every(k => draftCats.has(k))); });
+  markPreset();
+  card.querySelectorAll("[data-cat]").forEach(b => b.addEventListener("click", markPreset));
+  card.querySelectorAll("[data-preset]").forEach(b => b.onclick = () => {
+    draftCats = new Set(CAT_PRESETS.find(p => p[0] === b.dataset.preset)[2]);
+    card.querySelectorAll("[data-cat]").forEach(x => x.setAttribute("aria-pressed", draftCats.has(x.dataset.cat)));
+    markPreset();
+  });
   $("#catOk").onclick = () => {
     S.cats = CAT_KEYS.filter(k => draftCats.has(k));
-    if (S.cats.length === 1 && S.cats[0] === "mine" && !S.myConcepts.length){ toast("Önce “+ Kendi konum” ile listene konu ekle"); S.cats = CAT_KEYS.slice(); }
+    if (S.cats.length === 1 && S.cats[0] === "mine" && !S.myConcepts.length){ toast("Önce “+ Kendi konum” ile listene konu ekle"); S.cats = DEFAULT_CATS.slice(); }
     S.wheel = null;
     if (!selCats().includes(S.concept.cat)) pickConcept(); else save();
     render();
@@ -2876,6 +2889,7 @@ else if (rt.phase === "breakover") bubble("Mola bitti. Hazır olduğunda devam e
 else idleBubble();
 if (S.avatar && typeof S.avatar !== "object") S.avatar = null;
 if (S.sudoku) S.sudoku.open = false;
+if (S.catsV !== 2){ if (Array.isArray(S.cats) && S.cats.length >= CAT_KEYS.length - 1) S.cats = null; S.catsV = 2; if (S.concept && !selCats().includes(S.concept.cat) && (!rt || rt.phase === "idle")){ S.wheel = null; pickConcept(); } save(); }
 S.sound = "off";
 if (rt.mode === "arastir" && rt.stage === "explain" && rt.phase === "focus") setTimeout(explainModal, 400);
 scheduleReminders();
