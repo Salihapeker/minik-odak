@@ -11,12 +11,12 @@
 
 - Seninle çalışan, molada kahve içen 3D karakterler (kedi, saksı, baykuş) ve fotoğrafından "minik sen"
 - Akışı bölmeyen sayaç ve ritmine göre süre önerisi
-- Araştır & Anlat modu, konu çarkı, Sprint, kalem notlu Sudoku
-- Gün planı ve Trello benzeri pano
+- Araştır & Anlat modu (13 alandan konu, konu çarkı), Tek Hedef modu, kalem notlu Sudoku
+- Gün planı
 - İlaç ve su hatırlatmaları (Android'de ekran kapalıyken de bildirim, 3 kez tekrar)
 - Seviye, yıldız, günlük görevler, karakter dolabı
 - Ortak odalar (davet koduyla birlikte çalışma)
-- Hesapla telefon ↔ bilgisayar eşitleme (Firebase, ücretsiz plan)
+- Hesapla telefon ↔ bilgisayar eşitleme (Firebase, ücretsiz plan); cihazların verileri birleştirilir, biri diğerinin üzerine yazmaz
 
 ## Klasörler
 
