@@ -4,7 +4,7 @@
 Minik Odak: Pomodoro Arkadaşın
 
 ## Kısa açıklama (en fazla 80 karakter)
-Seninle çalışan 3D karakterli pomodoro: plan, pano, hatırlatma ve sudoku.
+Seninle çalışan 3D karakterli pomodoro: plan, hatırlatma, konu çarkı, sudoku.
 
 ## Uzun açıklama
 
@@ -17,10 +17,10 @@ Kafede kitap okuyan bir kedi, sen çalıştıkça büyüyen bir saksı ya da gec
 Süre bittiğinde odağın yerindeyse devam et; ek süren sayılır, molan buna göre uzar. Birkaç seanstan sonra uygulama ritmini öğrenir ve "sana 40/10 daha uygun gibi" diye önerir.
 
 📚 ARAŞTIR & ANLAT
-Konu çarkını çevir, yapay zeka ve yazılımdan bir kavram gelsin. Yapay zekaya sormadan araştır, sonra kısa sürede kendi cümlelerinle anlat. Öğrendiklerin listede birikir.
+Konu çarkını çevir; bilimden tarihe, psikolojiden ekonomiye 13 alandan seçtiğin konular gelsin. Yapay zekaya sormadan araştır, sonra kısa sürede kendi cümlelerinle anlat. Öğrendiklerin listede birikir.
 
-📋 GÜN PLANI VE PANO
-İşlerini ve kaç pomodoro süreceğini yaz; uygulama saatleri hesaplasın. Trello benzeri panoda kartları sürükleyip bırak, tek dokunuşla o işe başla.
+📋 GÜN PLANI
+İşlerini ve kaç pomodoro süreceğini yaz; uygulama saatleri hesaplasın, tek dokunuşla o işe başla.
 
 💊 İLAÇ VE SU HATIRLATMALARI
 "İlacını içtin mi?" diye sorar; cevap vermezsen 20 ve 40 dakika sonra tekrar hatırlatır. Bildirimdeki "İçtim" butonuyla tek dokunuşta işaretle.
@@ -51,7 +51,7 @@ Toplanan veri türleri (hepsi "Uygulama işlevselliği" amacıyla, "Paylaşılm�
 | Kişisel bilgiler | E-posta adresi | İsteğe bağlı (sadece hesap oluşturulursa) |
 | Kişisel bilgiler | Ad (uygulamada yazılan takma ad) | İsteğe bağlı |
 | Fotoğraflar ve videolar | Fotoğraflar (karakterin yüzü için küçültülmüş görüntü) | İsteğe bağlı |
-| Uygulama etkinliği | Uygulama etkileşimleri (seans süreleri, plan, pano, notlar) | Evet |
+| Uygulama etkinliği | Uygulama etkileşimleri (seans süreleri, plan, notlar) | Evet |
 | Sağlık ve fitness | Sağlık bilgileri (kullanıcının yazdığı ilaç hatırlatmaları) | İsteğe bağlı |
 | Uygulama bilgileri ve performansı | — | Toplanmıyor |
 | Konum, kişiler, mesajlar | — | Toplanmıyor |
