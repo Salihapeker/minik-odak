@@ -1,5 +1,5 @@
 /* Minik Odak service worker: uygulama dosyalarını önbelleğe alır, internetsiz de açılır. */
-const CACHE = "minikodak-v1";
+const CACHE = "minikodak-v2";
 const SHELL = ["./", "index.html", "platform.js", "firebase-config.js", "manifest.webmanifest",
   "vendor/three.min.js", "vendor/firebase-app-compat.js", "vendor/firebase-auth-compat.js", "vendor/firebase-firestore-compat.js",
   "icons/icon-192.png", "icons/icon-512.png"];

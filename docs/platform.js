@@ -38,7 +38,7 @@
 
   /* ---------- db adapter (artifact db API → Firestore) ---------- */
   function snapOf(s) {
-    return { exists: s.exists, data: () => (s.exists ? s.data() : undefined), hasPendingWrites: !!(s.metadata && s.metadata.hasPendingWrites) };
+    return { exists: s.exists, data: () => (s.exists ? s.data() : undefined), hasPendingWrites: !!(s.metadata && s.metadata.hasPendingWrites), fromCache: !!(s.metadata && s.metadata.fromCache) };
   }
   const dbApi = {
     doc(path) {
@@ -49,7 +49,7 @@
         set: data => ref.set(data),
         update: data => ref.update(data),
         delete: () => ref.delete(),
-        onSnapshot: (next, err) => ref.onSnapshot({ includeMetadataChanges: false }, s => next(snapOf(s)), e => err && err({ code: "unavailable", message: String(e) }))
+        onSnapshot: (next, err) => ref.onSnapshot({ includeMetadataChanges: true }, s => next(snapOf(s)), e => err && err({ code: "unavailable", message: String(e) }))
       };
     }
   };

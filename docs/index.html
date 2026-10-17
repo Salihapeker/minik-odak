@@ -102,25 +102,6 @@ button{cursor:pointer}
 .soundpop button[aria-pressed="true"]{background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)}
 .soundpop small{font-weight:700;color:var(--muted);font-size:11px}
 .toprow{position:relative}
-.board{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;margin-inline:-18px;padding-inline:18px;scroll-padding-inline:18px;-webkit-overflow-scrolling:touch}
-.bcol{flex:0 0 min(78vw,272px);scroll-snap-align:start;background:var(--field);border-radius:20px;padding:10px;display:flex;flex-direction:column;gap:8px;min-height:120px;border:2px solid transparent;transition:border-color .15s}
-.bcol.over{border-color:var(--accent)}
-.bcol header{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:2px 4px}
-.bcol header b{font-family:var(--f-display);font-weight:500;font-size:17px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.bcol header small{font-weight:800;color:var(--muted)}
-.bcards{display:flex;flex-direction:column;gap:8px;min-height:40px}
-.kcard{position:relative;background:var(--sheet);border-radius:14px;padding:10px 10px 8px 14px;box-shadow:0 4px 10px -6px var(--shadow);font-weight:700;cursor:grab;-webkit-user-select:none;user-select:none;touch-action:pan-y;overflow:hidden}
-.kcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--lab,transparent)}
-.kcard .kt{display:block;overflow-wrap:anywhere}
-.kcard .km{display:flex;align-items:center;gap:6px;margin-top:6px;font-size:12px;color:var(--muted);font-weight:800}
-.kcard .km button{border:1px solid var(--line);background:var(--field);border-radius:9px;padding:3px 8px;font-weight:800;font-size:12px}
-.kcard.ghost{position:fixed;z-index:60;pointer-events:none;transform:rotate(2.5deg) scale(1.03);box-shadow:0 18px 30px -10px var(--shadow);opacity:.95}
-.kcard.hold{opacity:.3}
-.kcard.done .kt{text-decoration:line-through;opacity:.65}
-.kadd{display:flex;gap:6px}
-.kadd input{flex:1;min-width:0;border:1px dashed var(--line);background:transparent;border-radius:12px;padding:8px 10px;font-weight:700}
-.kedit{display:flex;flex-direction:column;gap:8px}
-.kedit textarea{border:1px solid var(--line);background:var(--field);border-radius:12px;padding:10px;font-weight:700;width:100%}
 .time.tap{cursor:pointer;border-radius:24px;transition:background .2s}
 .time.tap:hover{background:color-mix(in srgb,var(--accent) 8%,transparent)}
 .timehint{text-align:center;font-size:11.5px;font-weight:700;color:var(--muted);margin-top:4px}
@@ -198,7 +179,7 @@ button{cursor:pointer}
 .tlist input{margin-top:4px;accent-color:var(--accent)}
 
 nav.bottom{position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(428px,calc(100% - 32px));border-radius:26px;z-index:20;box-shadow:0 16px 40px -18px var(--shadow)}
-nav.bottom .in{display:grid;grid-template-columns:repeat(5,1fr);padding:4px}
+nav.bottom .in{display:grid;grid-template-columns:repeat(4,1fr);padding:4px}
 nav.bottom button{background:none;border:none;padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11.5px;font-weight:800;color:var(--muted);border-radius:20px}
 nav.bottom svg{width:22px;height:22px}
 nav.bottom button[aria-current="true"]{color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
@@ -246,6 +227,9 @@ nav.bottom button[aria-current="true"]{color:var(--accent);background:color-mix(
 .code{font-family:var(--f-display);font-size:32px;letter-spacing:3px;font-weight:600}
 .peer .av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800}
 .note{font-size:13px;color:var(--muted)}
+.mini3d{position:relative;width:100%;height:260px;border-radius:22px;background:radial-gradient(circle at 50% 35%,var(--stage1),var(--stage2));overflow:hidden}
+.mini3d canvas{width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab}
+.mini3d .note{position:absolute;left:0;right:0;bottom:8px;text-align:center;margin:0;font-weight:700}
 .cropwrap{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
 .cropwrap canvas{width:132px;height:132px;max-width:100%;border-radius:50%;box-shadow:0 10px 24px -12px var(--shadow)}
 .swatches{display:flex;gap:6px;flex-wrap:wrap}
@@ -306,10 +290,6 @@ body.zen .app{padding-bottom:24px}
 }
 @media (min-width:960px) and (hover:hover){ .kbd{display:block} }
 @media (min-width:960px){
-  body.boardopen .sheet,body.boardopen nav.bottom{width:min(860px,calc(100vw - 500px))}
-  body.boardopen .app{padding-right:calc(min(860px,calc(100vw - 500px)) + 56px)}
-  body.boardopen .stage{width:min(360px,28vw,calc(100vh - 380px))}
-  body.boardopen .thought{right:calc(min(860px,calc(100vw - 500px)) + 80px)}
   .bcol{flex-basis:250px}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
@@ -368,7 +348,6 @@ body.zen .app{padding-bottom:24px}
   <button data-sheet="today"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Bugün</button>
   <button data-sheet="drinks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l-1.6 16.2a2 2 0 0 1-2 1.8H9.6a2 2 0 0 1-2-1.8z"/><path d="M6.6 9h10.8"/></svg>İç'ler</button>
   <button data-sheet="room"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="10" r="2.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M15.5 15c2.6-.4 4.7 1 5.5 4"/></svg>Birlikte</button>
-  <button data-sheet="board"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16M15 4v16M5.5 8h1.5M11 8h2M11 11h2M17 8h1.5"/></svg>Pano</button>
   <button data-sheet="me"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="9" r="4"/><path d="M4 21c1.2-4 4.2-6 8-6s6.8 2 8 6"/></svg>Ben</button>
 </div></nav>
 
@@ -400,37 +379,148 @@ const defaults = () => ({
     {id:"su", emoji:"💧", name:"Su", mode:"mola", times:[]}
   ], done:{}, thoughts:[], notes:{}, sug:{snooze:0, trial:null}, rooms:[], activeRoom:null, rt:null,
   game:{xp:0, coins:0, owned:["fiyonk","cicek"], claimed:{}}, lastDrink:{},
-  mode:"klasik", ar:{r:15, e:2, b:5}, plan:{date:"", items:[]}, board:null, planPrev:[], planAsk:"", cFilter:"mix", concept:null, myConcepts:[], learned:[], sound:"off", sudoku:null, sbest:{}
+  mode:"klasik", ar:{r:15, e:2, b:5}, plan:{date:"", items:[]}, planPrev:[], planAsk:"", cats:null, wheel:null, concept:null, myConcepts:[], learned:[], sound:"off", sudoku:null, sbest:{}
 });
 let S;
 try { S = Object.assign(defaults(), JSON.parse(localStorage.getItem(KEY) || "{}")); } catch { S = defaults(); }
 const saveLocal = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {} };
-const save = () => { S._t = Date.now(); saveLocal(); queueSync(); };
+/* ---------- change tracking ----------
+ * Each top-level field gets its own "last changed" time (_ft), set ONLY when its content really changes.
+ * Items removed from lists leave a tombstone (_del) so deletions spread to other devices instead of coming back.
+ * Two devices never overwrite each other: their states are merged (lists united, each setting from whoever changed it last). */
+const LOCAL_KEYS = new Set(["sound", "sudoku", "activeRoom", "learned", "board", "rt"]);
+const ID_OF = {
+  sessions: () => S.sessions.map(x => String(x.start)),
+  learned: () => S.learned.map(x => String(x.id)),
+  thoughts: () => S.thoughts.map(x => String(x.id)),
+  reminders: () => S.reminders.map(x => String(x.id)),
+  plan: () => ((S.plan && S.plan.items) || []).map(x => String(x.id)),
+  myConcepts: () => S.myConcepts.map(String)
+};
+let lastSaved = {}, lastIds = {};
+const avatarSansFace = a => a ? Object.assign({}, a, {face:null}) : null;
+function trackBaseline(){
+  lastSaved = {};
+  for (const k of Object.keys(S)) if (k[0] !== "_") lastSaved[k] = JSON.stringify(k === "avatar" ? avatarSansFace(S.avatar) : S[k]);
+  lastSaved.__face = (S.avatar && S.avatar.face) || "";
+  lastIds = {}; for (const c in ID_OF) lastIds[c] = new Set(ID_OF[c]());
+}
+const save = () => {
+  const t = Date.now(); S._ft = S._ft || {}; S._del = S._del || {};
+  for (const k of Object.keys(S)){
+    if (k[0] === "_") continue;
+    const j = JSON.stringify(k === "avatar" ? avatarSansFace(S.avatar) : S[k]);
+    if (lastSaved[k] !== j){ S._ft[k] = t; lastSaved[k] = j; }
+  }
+  const f = (S.avatar && S.avatar.face) || "";
+  if (lastSaved.__face !== f){ S._ft.face = t; lastSaved.__face = f; }
+  for (const c in ID_OF){
+    const ids = new Set(ID_OF[c]()), prev = lastIds[c] || new Set();
+    prev.forEach(id => { if (!ids.has(id)) (S._del[c] = S._del[c] || {})[id] = t; });
+    lastIds[c] = ids;
+  }
+  S._t = t; saveLocal(); queueSync();
+};
+delete S.board; trackBaseline();
+
+/* ---------- merging ---------- */
+const stable = v => JSON.stringify(v, (k, x) => x && typeof x === "object" && !Array.isArray(x) ? Object.keys(x).sort().reduce((o, kk) => (o[kk] = x[kk], o), {}) : x);
+const dayNum = s => { const p = String(s || "").split("-").map(Number); return p.length === 3 ? new Date(p[0], p[1] - 1, p[2]).getTime() : 0; };
+function mergeDel(a, b){
+  const out = {}, cut = Date.now() - 150 * DAY;
+  for (const src of [a || {}, b || {}]) for (const c in src) for (const id in src[c]){ const t = src[c][id]; if (t > cut && !(out[c] && out[c][id] >= t)) (out[c] = out[c] || {})[id] = t; }
+  return out;
+}
+function unite(a, b, key, del, both){
+  const m = new Map();
+  for (const x of a || []) if (x) m.set(String(x[key]), x);
+  for (const y of b || []) if (y){ const id = String(y[key]); m.set(id, m.has(id) ? both(m.get(id), y) : y); }
+  return [...m.values()].filter(x => !(del && del[String(x[key])]));
+}
+function mergeState(L, R){
+  L = L || {}; R = R || {};
+  const fa = L._ft || {}, fb = R._ft || {}, del = mergeDel(L._del, R._del), out = {_ft:{}, _del:del};
+  const winner = k => { const a = fa[k] || 0, b = fb[k] || 0; if (a !== b) return a > b ? L : R; return stable(L[k]) >= stable(R[k]) ? L : R; };
+  const rA = L._resetAt || 0, rB = R._resetAt || 0; out._resetAt = Math.max(rA, rB);
+  const fresh = rA === rB ? null : (rA > rB ? L : R);
+  const keys = new Set([...Object.keys(L), ...Object.keys(R)].filter(k => k[0] !== "_" && !LOCAL_KEYS.has(k)));
+  for (const k of keys){
+    out._ft[k] = Math.max(fa[k] || 0, fb[k] || 0);
+    const a = L[k], b = R[k];
+    if (k === "sessions") out[k] = unite(a, b, "start", del.sessions, (x, y) => Object.assign({}, y, x, {mood:x.mood ?? y.mood, breakActual:x.breakActual ?? y.breakActual})).sort((p, q) => p.start - q.start).slice(-400);
+    else if (k === "thoughts") out[k] = unite(a, b, "id", del.thoughts, (x, y) => Object.assign({}, x, {done:!!(x.done || y.done)})).sort((p, q) => p.id - q.id).slice(-60);
+    else if (k === "reminders"){ const w = winner(k); out[k] = unite(a, b, "id", del.reminders, (x, y) => w === L ? x : y); }
+    else if (k === "myConcepts") out[k] = [...new Set([...(a || []), ...(b || [])])].filter(x => !(del.myConcepts && del.myConcepts[String(x)])).slice(0, 100);
+    else if (k === "plan"){
+      const pa = a || {date:"", items:[]}, pb = b || {date:"", items:[]}, da = dayNum(pa.date), db = dayNum(pb.date);
+      if (da !== db) out[k] = JSON.parse(JSON.stringify(da > db ? pa : pb));
+      else out[k] = {date:pa.date || pb.date, items:unite(pa.items, pb.items, "id", del.plan, (x, y) => Object.assign({}, x, {done:Math.max(x.done || 0, y.done || 0)}))};
+      if (del.plan) out[k].items = out[k].items.filter(x => !del.plan[String(x.id)]);
+    }
+    else if (fresh && ["done", "notes", "lastDrink", "game", "sbest"].includes(k)) out[k] = JSON.parse(JSON.stringify(fresh[k] ?? null));
+    else if (k === "done"){
+      const o = {}, days = [...new Set([...Object.keys(a || {}), ...Object.keys(b || {})])].sort((p, q) => dayNum(q) - dayNum(p)).slice(0, 14);
+      for (const d of days){ const x = (a || {})[d] || {}, y = (b || {})[d] || {}, r = {}; for (const id of new Set([...Object.keys(x), ...Object.keys(y)])){ const u = x[id], v = y[id]; r[id] = Array.isArray(u) || Array.isArray(v) ? [...new Set([...(Array.isArray(u) ? u : []), ...(Array.isArray(v) ? v : [])])].sort() : Math.max(+u || 0, +v || 0); } o[d] = r; }
+      out[k] = o;
+    }
+    else if (k === "notes"){ const o = Object.assign({}, b || {}); for (const n in a || {}) if (!o[n] || (a[n].t || 0) >= (o[n].t || 0)) o[n] = a[n]; out[k] = o; }
+    else if (k === "lastDrink"){ const o = Object.assign({}, b || {}); for (const n in a || {}) o[n] = Math.max(a[n] || 0, o[n] || 0); out[k] = o; }
+    else if (k === "sbest"){ const o = Object.assign({}, b || {}); for (const n in a || {}) o[n] = o[n] ? Math.min(a[n], o[n]) : a[n]; out[k] = o; }
+    else if (k === "game"){
+      const ga = a || {}, gb = b || {}, w = (ga.xp || 0) !== (gb.xp || 0) ? ((ga.xp || 0) > (gb.xp || 0) ? ga : gb) : (winner(k) === L ? ga : gb), cl = {};
+      for (const src of [ga.claimed || {}, gb.claimed || {}]) for (const d in src) cl[d] = [...new Set([...(cl[d] || []), ...src[d]])].sort();
+      const keep = Object.keys(cl).sort((p, q) => dayNum(q) - dayNum(p)).slice(0, 3), claimed = {}; keep.forEach(d => claimed[d] = cl[d]);
+      out[k] = {xp:Math.max(ga.xp || 0, gb.xp || 0), coins:w.coins || 0, owned:[...new Set([...(ga.owned || []), ...(gb.owned || [])])].sort(), claimed};
+    }
+    else { const w = winner(k); out[k] = JSON.parse(JSON.stringify(w[k] ?? null)); }
+  }
+  // running timer: whichever device last started / paused / ended it wins
+  const ra = L.rt || null, rb = R.rt || null, ta = (ra && ra._at) || 0, tb = (rb && rb._at) || 0;
+  out.rt = ta === tb ? (stable(ra) >= stable(rb) ? ra : rb) : (ta > tb ? ra : rb);
+  if (out.avatar) out.avatar = Object.assign({}, out.avatar, {face:null});
+  return out;
+}
+function mainPayload(){
+  const o = {};
+  for (const k of Object.keys(S)) if (k[0] !== "_" && !LOCAL_KEYS.has(k)) o[k] = k === "avatar" ? avatarSansFace(S.avatar) : S[k];
+  o.rt = S.rt || null; o._ft = Object.assign({}, S._ft || {}); delete o._ft.face; o._del = S._del || {}; o._resetAt = S._resetAt || 0;
+  return JSON.parse(JSON.stringify(o));
+}
+
 /* ---------- cloud sync (each person's own private copy) ---------- */
-let dbApi = null, myId = null, syncT = 0, applying = false, lastMain = "", lastFace = null, lastLearned = "", syncChain = Promise.resolve(), syncOk = false;
+let dbApi = null, myId = null, syncT = 0, applying = false, syncReady = false, syncChain = Promise.resolve();
+let lastMain = "", lastFace = null, lastLearned = "";
 const syncBase = () => "data/users/" + myId + "/mo_";
-function mainPayload(){ const o = Object.assign({}, S); delete o.learned; o.avatar = S.avatar ? Object.assign({}, S.avatar, {face:null}) : null; return JSON.parse(JSON.stringify(o)); }
-function queueSync(){ if (!dbApi || !myId || applying) return; clearTimeout(syncT); syncT = setTimeout(pushSync, 1200); }
+function queueSync(){ if (!dbApi || !myId || applying || !syncReady) return; clearTimeout(syncT); syncT = setTimeout(pushSync, 1200); }
 function pushSync(){
   syncChain = syncChain.then(async () => {
+    if (!dbApi || !syncReady) return;
     try {
-      S._uid = myId; const m = mainPayload(), ms = JSON.stringify(Object.assign({}, m, {_t:0}));
+      const m = mainPayload(), ms = stable(m);
       if (ms !== lastMain){ await dbApi.doc(syncBase() + "main").set(m); lastMain = ms; }
       const f = (S.avatar && S.avatar.face) || "";
-      if (f !== lastFace){ await dbApi.doc(syncBase() + "face").set({face:f, _t:S._t || 0}); lastFace = f; }
-      const L = JSON.stringify(S.learned.slice(0, 60));
-      if (L !== lastLearned){ await dbApi.doc(syncBase() + "learned").set({items:S.learned.slice(0, 60), _t:S._t || 0}); lastLearned = L; }
-      syncOk = true;
-    } catch (e) { if (e && (e.code === "invalid_argument" || e.code === "not_granted")) { dbApi = null; } }
+      if (f !== lastFace){ await dbApi.doc(syncBase() + "face").set({face:f, ft:(S._ft && S._ft.face) || 0}); lastFace = f; }
+      const items = S.learned.slice(0, 100), L = stable(items);
+      if (L !== lastLearned){ await dbApi.doc(syncBase() + "learned").set({items}); lastLearned = L; }
+    } catch (e) { if (e && (e.code === "invalid_argument" || e.code === "not_granted")) dbApi = null; }
   });
 }
 function applyRemote(fn){
   applying = true;
-  try { fn(); saveLocal(); } finally { applying = false; }
+  try { fn(); trackBaseline(); saveLocal(); } finally { applying = false; }
   rt = S.rt || {phase:"idle"}; lastSceneSig = "";
   const typing = document.activeElement && /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
   render();
-  if (sheetOpen && !typing && sheetOpen !== "room") ({today:sheetToday, drinks:sheetDrinks, me:sheetMe, board:sheetBoard})[sheetOpen]?.();
+  if (sheetOpen && !typing && sheetOpen !== "room") ({today:sheetToday, drinks:sheetDrinks, me:sheetMe})[sheetOpen]?.();
+}
+function applyMerged(M){
+  const local = {}; LOCAL_KEYS.forEach(k => { if (k !== "rt" && k in S) local[k] = S[k]; });
+  const face = (S.avatar && S.avatar.face) || null, faceFt = (S._ft && S._ft.face) || 0, uid = S._uid, learned = S.learned;
+  S = Object.assign(defaults(), M, local, {learned, _uid:uid, _t:S._t});
+  delete S.board;
+  S._ft = Object.assign({}, S._ft || {}, {face:faceFt});
+  if (face && !S.avatar) S.avatar = {skin:"#f2c9a8", hair:"#4a2f20", style:"kisa", outfit:"tulum"};
+  if (S.avatar) S.avatar.face = face;
 }
 async function startSync(){
   try {
@@ -439,32 +529,51 @@ async function startSync(){
     if (!db || !user) return;
     const id = await user.id(); if (!id) return;
     dbApi = db; myId = id;
-    let first = true;
+    const otherAccount = !!(S._uid && S._uid !== id);
+    let first = true, firstFace = true;
     db.doc(syncBase() + "main").onSnapshot(snap => {
-      if (snap.hasPendingWrites) return;
+      if (snap.hasPendingWrites || (first && snap.fromCache)) return;
       const d = snap.exists ? snap.data() : null;
-      if (!d){ if (first){ first = false; pushSync(); } return; }
-      lastMain = JSON.stringify(Object.assign({}, d, {_t:0}));
-      if ((d._t || 0) > (S._t || 0) || (first && S._uid !== myId)){
-        applyRemote(() => { const face = S.avatar && S.avatar.face, learned = S.learned; S = Object.assign(defaults(), d, {learned}); if (S.avatar) S.avatar.face = face || null; });
-        if (first) toast("Diğer cihazındaki veriler yüklendi");
-      } else if (first && (S._t || 0) > (d._t || 0)) pushSync();
-      if (first) S._uid = myId;
-      first = false;
+      if (d) lastMain = stable(d);
+      if (first){
+        first = false;
+        if (otherAccount){ applyRemote(() => { S = Object.assign(defaults(), d || {}, {_uid:id}); delete S.board; }); }
+        else if (d){
+          const before = stable(mainPayload()), M = mergeState(mainPayload(), d);
+          if (stable(M) !== before){ applyRemote(() => applyMerged(M)); toast("Diğer cihazındaki verilerle birleştirildi"); }
+        }
+        S._uid = id; saveLocal(); syncReady = true;
+        if (!d || stable(mainPayload()) !== lastMain) pushSync();
+        return;
+      }
+      if (!d) return;
+      const before = stable(mainPayload()), M = mergeState(mainPayload(), d);
+      if (stable(M) !== before) applyRemote(() => applyMerged(M));
+      if (stable(mainPayload()) !== lastMain) queueSync();
     }, () => {});
     db.doc(syncBase() + "face").onSnapshot(snap => {
-      if (snap.hasPendingWrites || !snap.exists) return;
-      const d = snap.data(); lastFace = d.face || "";
-      const mine = (S.avatar && S.avatar.face) || "";
-      if (d.face && d.face !== mine && ((d._t || 0) >= (S._t || 0) - 5000 || !mine)) applyRemote(() => { S.avatar = Object.assign({skin:"#f2c9a8", hair:"#4a2f20", style:"kisa", outfit:"tulum"}, S.avatar || {}, {face:d.face}); });
-      else if (d.face !== mine) queueSync();
+      if (snap.hasPendingWrites || (firstFace && snap.fromCache)) return;
+      firstFace = false;
+      if (!snap.exists){ queueSync(); return; }
+      const d = snap.data(), rf = d.face || "", rft = d.ft || 0;
+      lastFace = rf;
+      const mine = (S.avatar && S.avatar.face) || "", mft = (S._ft && S._ft.face) || 0;
+      if (rf === mine) return;
+      if (rft > mft || (rft === mft && rf > mine)) applyRemote(() => {
+        if (rf) S.avatar = Object.assign({skin:"#f2c9a8", hair:"#4a2f20", style:"kisa", outfit:"tulum"}, S.avatar || {}, {face:rf});
+        else if (S.avatar) S.avatar = Object.assign({}, S.avatar, {face:null});
+        S._ft = S._ft || {}; S._ft.face = rft;
+      });
+      else queueSync();
     }, () => {});
     db.doc(syncBase() + "learned").onSnapshot(snap => {
       if (snap.hasPendingWrites || !snap.exists) return;
-      const d = snap.data(), items = Array.isArray(d.items) ? d.items : [];
-      lastLearned = JSON.stringify(items);
-      const top = x => (x[0] && x[0].id) || 0;
-      if (top(items) > top(S.learned)) applyRemote(() => { const ids = new Set(items.map(i => i.id)); S.learned = items.concat(S.learned.filter(i => !ids.has(i.id))).slice(0, 200); });
+      const items = Array.isArray(snap.data().items) ? snap.data().items : [];
+      lastLearned = stable(items);
+      const del = (S._del && S._del.learned) || {};
+      const merged = unite(S.learned, items, "id", del, (x, y) => (x.fb || x.score != null) ? x : y).sort((p, q) => q.id - p.id).slice(0, 200);
+      if (stable(merged) !== stable(S.learned)) applyRemote(() => { S.learned = merged; });
+      if (stable(S.learned.slice(0, 100)) !== lastLearned) queueSync();
     }, () => {});
   } catch {}
 }
@@ -485,7 +594,10 @@ const realSessions = () => S.sessions.filter(s => !s.example);
 /* ---------- runtime ---------- */
 let rt = S.rt || {phase:"idle"};
 let sampleApi = null;
-const setRt = p => { rt = Object.assign({}, rt, p); S.rt = rt; save(); };
+const setRt = p => {
+  const derived = Object.keys(p).length === 1 && (p.phase === "over" || p.phase === "breakover");
+  rt = Object.assign({}, rt, p, derived ? {} : {_at:Date.now()}); S.rt = rt; save(); queueSync();
+};
 
 /* ---------- audio ---------- */
 let actx = null;
@@ -869,7 +981,7 @@ const World = (() => {
     if (av && av.face){
       const tex = typeof av.face === "string" ? new T.TextureLoader().load(av.face) : new T.CanvasTexture(av.face);
       tex.encoding = T.sRGBEncoding; tex.anisotropy = 4;
-      const patch = new T.Mesh(new T.SphereGeometry(.565, 48, 32, PI / 2 - 1.05, 2.1, PI / 2 - .95, 1.95), new T.MeshStandardMaterial({map:tex, transparent:true, roughness:.75}));
+      const patch = new T.Mesh(new T.SphereGeometry(.566, 48, 32, PI / 2 - .82, 1.64, PI / 2 - .8, 1.7), new T.MeshStandardMaterial({map:tex, emissiveMap:tex, emissive:0xffffff, emissiveIntensity:.32, transparent:true, roughness:.8}));
       patch.renderOrder = 2; head.add(patch);
     } else {
       const dark = M(0x2a1b14, {roughness:.3});
@@ -999,8 +1111,46 @@ const World = (() => {
     if (key === miniKey && !force) return; miniKey = key;
     if (mini){ mini.g.parent && mini.g.parent.remove(mini.g); mini.g.traverse(o => { if (o.geometry) o.geometry.dispose(); if (o.material){ if (o.material.map) o.material.map.dispose(); o.material.dispose(); } }); }
     mini = buildMini(av, color);
-    mini.g.position.set(1.6, .53, 1.2); mini.g.rotation.y = -.3; mini.g.scale.setScalar(.95);
+    mini.g.position.set(1.55, .53, 1.3); mini.g.rotation.y = -.35; mini.g.scale.setScalar(1.18);
     if (themeGrp) themeGrp.add(mini.g);
+  }
+  /* live 3D preview of "minik sen" (used in the Ben sheet) */
+  function preview(canvas){
+    if (!T) return null;
+    let r2; try { r2 = new T.WebGLRenderer({canvas, antialias:true, alpha:true}); } catch { return null; }
+    r2.outputEncoding = T.sRGBEncoding; r2.toneMapping = T.ACESFilmicToneMapping; r2.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+    const sc = new T.Scene(), cm = new T.PerspectiveCamera(28, 1, .1, 50);
+    cm.position.set(0, 1.25, 4.6); cm.lookAt(0, 1.0, 0);
+    sc.add(new T.HemisphereLight(0xfff4e8, 0x9a7a66, 1.05));
+    const dl = new T.DirectionalLight(0xffffff, 1.1); dl.position.set(2, 4, 5); sc.add(dl);
+    const fill = new T.DirectionalLight(0xffe2cc, .45); fill.position.set(-3, 2, 2); sc.add(fill);
+    const ground = new T.Mesh(new T.CircleGeometry(.9, 48), new T.MeshBasicMaterial({color:0x000000, transparent:true, opacity:.08})); ground.rotation.x = -PI / 2; sc.add(ground);
+    let m = null, rot = 0, vel = .004, drag = null, dead = false, raf = 0;
+    const fit = () => { const w = canvas.clientWidth, h = canvas.clientHeight; if (w && h){ r2.setSize(w, h, false); cm.aspect = w / h; cm.updateProjectionMatrix(); } };
+    fit();
+    canvas.addEventListener("pointerdown", e => { drag = e.clientX; try { canvas.setPointerCapture(e.pointerId); } catch {} });
+    canvas.addEventListener("pointermove", e => { if (drag == null) return; const d = (e.clientX - drag) / (canvas.clientWidth || 200) * PI * 2; rot += d; vel = d * .2; drag = e.clientX; });
+    canvas.addEventListener("pointerup", () => { drag = null; });
+    const clock = new T.Clock();
+    const loop = () => {
+      if (dead) return; raf = requestAnimationFrame(loop);
+      if (!canvas.isConnected){ api2.dispose(); return; }
+      const t = clock.getElapsedTime();
+      if (drag == null){ rot += vel; vel += (.004 - vel) * .02; }
+      if (m){ m.g.rotation.y = rot; m.body.position.y = Math.sin(t * 2) * .02; m.head.rotation.z = Math.sin(t * .9) * .05; if (m.tail && !m.tail.isMesh) m.tail.rotation.z = Math.sin(t * 2.4) * .2;
+        m.arms[1].rotation.z = (t % 6) < 1.3 ? 2.4 + Math.sin(t * 10) * .35 : .5; }
+      fit(); r2.render(sc, cm);
+    };
+    const api2 = {
+      update(av, color){
+        if (m){ sc.remove(m.g); m.g.traverse(o => { if (o.geometry) o.geometry.dispose(); if (o.material){ if (o.material.map) o.material.map.dispose(); o.material.dispose(); } }); }
+        m = buildMini(av, color); m.laptop.visible = false; m.mug.visible = false; sc.add(m.g);
+      },
+      front(){ rot = 0; vel = 0; },
+      dispose(){ dead = true; cancelAnimationFrame(raf); try { r2.dispose(); r2.forceContextLoss(); } catch {} }
+    };
+    loop();
+    return api2;
   }
   let confetti = [];
   function celebrate(){
@@ -1014,7 +1164,7 @@ const World = (() => {
     }
     react = 1;
   }
-  const api = {init, set, setAvatar, rotate, front, celebrate, onTap:null, get ok(){ return ok; }};
+  const api = {init, set, setAvatar, rotate, front, celebrate, preview, onTap:null, get ok(){ return ok; }};
   return api;
 })();
 
@@ -1216,6 +1366,7 @@ function startFocus(min, endsAt){
   audio();
   const c = cfg();
   const mode = endsAt || min === 5 ? "klasik" : S.mode === "sudoku" ? "klasik" : S.mode;
+  if (mode === "sprint" && !($("#intent").value || "").trim()){ toast("Önce tek hedefini yaz"); $("#intent").focus(); return; }
   const m = mode === "arastir" ? S.ar.r : (min || c.focus);
   if (rt.phase === "breakover" || rt.phase === "break") closeBreak();
   let intent = ($("#intent").value || "").trim();
@@ -1254,7 +1405,7 @@ function moodModal(actual){
       <button data-m="1" aria-pressed="false">😐<span>İdare</span></button>
       <button data-m="0" aria-pressed="false">😩<span>Zordu</span></button>
     </div>
-    ${rt.mode === "sprint" ? `<div class="label" style="text-align:center">Mini hedef: ${esc(rt.intent || "—")}</div><div class="opts" style="justify-content:center" id="goalOpts"><button data-goal="2">Bitti ✓</button><button data-goal="1">Kısmen</button><button data-goal="0">Olmadı</button></div>` : ""}
+    ${rt.mode === "sprint" ? `<div class="label" style="text-align:center">Tek hedefin: ${esc(rt.intent || "—")} · bitti mi?</div><div class="opts" style="justify-content:center" id="goalOpts"><button data-goal="2">Bitti ✓</button><button data-goal="1">Kısmen</button><button data-goal="0">Olmadı</button></div>` : ""}
     <div class="label" style="text-align:center">Dikkatini ne dağıttı?</div>
     <div class="opts" style="justify-content:center" id="distOpts">${DISTR.map(d => `<button data-d="${d}" aria-pressed="false">${d}</button>`).join("")}</div>
     <div class="field"><label class="label" for="leftOff">Nerede kaldın?</label>
@@ -1270,8 +1421,8 @@ function moodModal(actual){
     const t = now(), c = cfg(), planned = rt.planned;
     const brk = clamp(Math.max(c.brk, Math.round(actual * c.brk / Math.max(c.focus,1))), 3, 30);
     S.sessions.push({start:rt.startedAt, planned, actual, mood, part:part(rt.startedAt), intent:rt.intent || "", breakPlanned:brk, short:!!rt.short, mode:rt.mode || "klasik", goal, distr:[...distr]});
-    planTick(rt.intent || "", rt.mode || "klasik"); boardTick(rt.intent || "");
-    if (goal === 2) setTimeout(() => gain(5, 1, "mini hedef tamam"), 2200);
+    planTick(rt.intent || "", rt.mode || "klasik");
+    if (goal === 2) setTimeout(() => gain(5, 1, "hedef tamam"), 2200);
     if (S.sessions.length > 400) S.sessions = S.sessions.slice(-400);
     if (rt.intent && note) S.notes[rt.intent.toLocaleLowerCase("tr")] = {note, t};
     else if (note) S.notes["_"] = {note, t};
@@ -1426,7 +1577,7 @@ function render(){
   const c = cfg(), ctl = $("#controls");
   const parts = Object.keys(S.parts).length ? ` · ${PARTNAME[part()].toLocaleLowerCase("tr")} ritmi` : "";
   if (idle && S.mode === "arastir") ctl.innerHTML = `<button class="big" id="go">Araştırmaya başla · ${S.ar.r} dk</button>`;
-  else if (idle && S.mode === "sprint") ctl.innerHTML = `<button class="big" id="go">Sprint başlat · ${c.focus} dk</button>`;
+  else if (idle && S.mode === "sprint") ctl.innerHTML = `<button class="big" id="go">Hedefe başla · ${c.focus} dk</button>`;
   else if (idle) ctl.innerHTML = `<button class="big" id="go">Başla · ${c.focus}/${c.brk}</button><button class="ghost" id="five" title="Başlamak zor geliyorsa">Sadece 5 dk</button>`;
   else if (ph === "focus" && rt.mode === "arastir" && rt.stage === "explain") ctl.innerHTML = `<button class="big" id="exOpen">Anlatımı yaz</button>`;
   else if (ph === "focus" && rt.mode === "arastir") ctl.innerHTML = `<button class="big" id="pp">Duraklat</button><button class="ghost" id="fin">Anlatmaya geç</button>`;
@@ -1498,7 +1649,7 @@ function tick(force){
     const rem = rt.endsAt - ref, tot = rt.endsAt - rt.startedAt;
     const ex = rt.mode === "arastir" && rt.stage === "explain";
     p = clamp(1 - rem / (ex ? rt.endsAt - rt.explainStart : tot), 0, 1); txt = fmt(rem);
-    lbl = ph === "paused" ? "Duraklatıldı" : ex ? "Anlat" : rt.mode === "arastir" ? "Araştır · yapay zekasız" : rt.mode === "sprint" ? "Sprint" : "Odak";
+    lbl = ph === "paused" ? "Duraklatıldı" : ex ? "Anlat" : rt.mode === "arastir" ? "Araştır · yapay zekasız" : rt.mode === "sprint" ? "Tek hedef" : "Odak";
     if (ph === "focus" && rem <= 0 && rt.mode === "arastir"){
       if (!ex){ startExplain(); return; }
       txt = "00:00";
@@ -1548,9 +1699,9 @@ $("#thoughtBtn").onclick = () => {
 /* ---------- sheets ---------- */
 let sheetOpen = null;
 function openSheet(name, scrollTo){
-  sheetOpen = name; World.paused = !isWide(); document.body.classList.toggle("boardopen", name === "board");
+  sheetOpen = name; World.paused = !isWide();
   document.querySelectorAll("nav.bottom button").forEach(b => b.setAttribute("aria-current", b.dataset.sheet === name));
-  ({today:sheetToday, drinks:sheetDrinks, room:sheetRoom, me:sheetMe, board:sheetBoard})[name]();
+  ({today:sheetToday, drinks:sheetDrinks, room:sheetRoom, me:sheetMe})[name]();
   $("#sheet").classList.add("on"); $("#scrim").classList.add("on");
   if (scrollTo) setTimeout(() => document.getElementById(scrollTo)?.scrollIntoView({behavior:"smooth", block:"start"}), 200);
 }
@@ -1693,32 +1844,36 @@ function sheetDrinks(){
 }
 
 /* ---------- mini-me ---------- */
-let srcImg = null, crop = {z:1, y:.35, x:.5}, draft = null;
+let srcImg = null, crop = {z:1, y:.35, x:.5}, draft = null, mePreview = null;
 const PALETTE = ["#e07a5f","#f2a65a","#e9c46a","#81b29a","#5fa8d3","#9b7fd1","#e58fb5","#4a4e69"];
 const STYLES_G = {kiz:[["uzun","Uzun"],["atkuyrugu","At kuyruğu"],["kakul","Kakül & küt"],["topuz","İki topuz"],["kivircikuzun","Uzun kıvırcık"],["kisa","Kısa"]], erkek:[["kisa","Kısa"],["yana","Yana taralı"],["kivircik","Kıvırcık"],["diken","Dikenli"],["uzun","Uzun"]]};
 const SKINS = ["#f7d7c0","#f2c9a8","#e3ab84","#c98c62","#9c6644","#6e4630"];
 const HAIRS = ["#2b1d16","#4a2f20","#7a4a28","#b07a45","#e2c58f","#a8432f","#1f2233","#c9c1d6"];
 const hex = (r,g,b) => "#" + [r,g,b].map(v => clamp(Math.round(v),0,255).toString(16).padStart(2,"0")).join("");
-function makeFace(img){
-  const N = 288, cv = document.createElement("canvas"); cv.width = cv.height = N;
+function makeFace(img, look){
+  const N = 320, cv = document.createElement("canvas"); cv.width = cv.height = N;
   const g = cv.getContext("2d");
-  const s = Math.min(img.width, img.height) / crop.z;
-  const sx = clamp(img.width*crop.x - s/2, 0, img.width - s), sy = clamp(img.height*crop.y - s/2, 0, img.height - s);
-  g.imageSmoothingQuality = "high"; g.drawImage(img, sx, sy, s, s, 0, 0, N, N);
-  const d = g.getImageData(0, 0, N, N), p = d.data, step = 255/7;
-  let sr = 0, sg = 0, sb = 0, n = 0;
+  const s0 = Math.min(img.width, img.height) / crop.z;
+  const sx = clamp(img.width*crop.x - s0/2, 0, img.width - s0), sy = clamp(img.height*crop.y - s0/2, 0, img.height - s0);
+  g.imageSmoothingQuality = "high"; g.drawImage(img, sx, sy, s0, s0, 0, 0, N, N);
+  const d = g.getImageData(0, 0, N, N), p = d.data, toon = look === "cizgi", step = 255/7;
+  let sr = 0, sg = 0, sb = 0, n = 0, lum = 0;
+  for (let i = 0; i < p.length; i += 4) lum += (p[i] + p[i+1] + p[i+2]) / 3;
+  const lift = clamp(132 - lum / (p.length / 4), -10, 45);
   for (let y = 0; y < N; y++) for (let x = 0; x < N; x++){
-    const i = (y*N + x)*4; let r = p[i], gg = p[i+1], b = p[i+2];
-    if (x > N*.36 && x < N*.64 && y > N*.5 && y < N*.68){ sr += r; sg += gg; sb += b; n++; }
-    const l = (r+gg+b)/3; r = l + (r-l)*1.15; gg = l + (gg-l)*1.15; b = l + (b-l)*1.15;
-    p[i] = Math.round(r/step)*step*.94 + 10; p[i+1] = Math.round(gg/step)*step*.94 + 9; p[i+2] = Math.round(b/step)*step*.94 + 8;
+    const i = (y*N + x)*4; let r = p[i] + lift, gg = p[i+1] + lift, b = p[i+2] + lift;
+    if (x > N*.36 && x < N*.64 && y > N*.52 && y < N*.68){ sr += p[i]; sg += p[i+1]; sb += p[i+2]; n++; }
+    const l = (r+gg+b)/3;
+    if (toon){ r = l + (r-l)*1.15; gg = l + (gg-l)*1.15; b = l + (b-l)*1.15; r = Math.round(r/step)*step*.94 + 10; gg = Math.round(gg/step)*step*.94 + 9; b = Math.round(b/step)*step*.94 + 8; }
+    else { const c = 1.1; r = (r - 128) * c + 128; gg = (gg - 128) * c + 128; b = (b - 128) * c + 128; const L2 = (r+gg+b)/3; r = L2 + (r-L2)*1.06; gg = L2 + (gg-L2)*1.06; b = L2 + (b-L2)*1.06; }
+    p[i] = clamp(r, 0, 255); p[i+1] = clamp(gg, 0, 255); p[i+2] = clamp(b, 0, 255);
   }
   g.putImageData(d, 0, 0);
   g.globalCompositeOperation = "destination-in";
-  const rg = g.createRadialGradient(N/2, N/2, N*.3, N/2, N/2, N*.5);
+  const rg = g.createRadialGradient(N/2, N*.52, N*.34, N/2, N*.52, N*.5);
   rg.addColorStop(0, "rgba(0,0,0,1)"); rg.addColorStop(1, "rgba(0,0,0,0)");
   g.fillStyle = rg; g.fillRect(0, 0, N, N); g.globalCompositeOperation = "source-over";
-  return {canvas:cv, skin:n ? hex(sr/n*1.04, sg/n*1.04, sb/n*1.04) : "#f2c9a8"};
+  return {canvas:cv, skin:n ? hex(sr/n*1.04 + lift*.5, sg/n*1.04 + lift*.5, sb/n*1.04 + lift*.5) : "#f2c9a8"};
 }
 function drawPreview(cv, d){
   const g = cv.getContext("2d"), W = cv.width; g.clearRect(0, 0, W, W);
@@ -1726,6 +1881,12 @@ function drawPreview(cv, d){
   if (d.face){ if (typeof d.face === "string"){ const im = new Image(); im.onload = () => g.drawImage(im, 0, 0, W, W); im.src = d.face; } else g.drawImage(d.face, 0, 0, W, W); }
   else { g.fillStyle = "#2a1b14"; g.beginPath(); g.arc(W*.38, W*.5, W*.045, 0, Math.PI*2); g.arc(W*.62, W*.5, W*.045, 0, Math.PI*2); g.fill(); }
   g.fillStyle = d.hair; g.beginPath(); g.arc(W/2, W/2, W/2, Math.PI*1.08, Math.PI*1.92); g.closePath(); g.fill();
+  if (d.face && srcImg){
+    g.save(); g.setLineDash([6, 6]); g.lineWidth = 2; g.strokeStyle = "rgba(255,255,255,.9)";
+    g.beginPath(); g.ellipse(W/2, W*.53, W*.27, W*.34, 0, 0, Math.PI*2); g.stroke();
+    g.beginPath(); g.moveTo(W*.3, W*.47); g.lineTo(W*.7, W*.47); g.stroke();
+    g.restore();
+  }
 }
 
 function sheetMe(){
@@ -1739,11 +1900,14 @@ function sheetMe(){
   </div></div>
   <div class="sec" id="avatarSec"><div class="label">Minik sen</div>
     <p class="note" style="margin:0">Bir fotoğrafını yükle; yüzün 3D minik karakterinin kafasına giysin. Seçtiğin her şey otomatik kaydedilir. Fotoğraf sadece bu cihazda kalır.</p>
+    <div class="mini3d"><canvas id="mini3d" aria-label="Minik sen 3D önizleme"></canvas><span class="note">Sürükleyerek çevir</span></div>
     <div class="cropwrap"><canvas id="cv" width="264" height="264"></canvas>
       <div style="display:flex;flex-direction:column;gap:8px;flex:1;min-width:160px">
         <label class="label" for="file">Fotoğraf seç</label>
         <input type="file" id="file" accept="image/*" class="fileinp">
         <span class="note" style="margin-top:-4px">ya da fotoğrafı buraya sürükle / yapıştır</span>
+        <span class="note" id="guideNote" hidden>Yüzünü kesik çizgili ovalin içine, gözlerini çizginin üstüne getir.</span>
+        <div class="opts" role="group" aria-label="Görünüm"><button data-look="dogal">Doğal</button><button data-look="cizgi">Çizgi film</button></div>
         <label class="label" for="zm">Yakınlaştır</label><input id="zm" type="range" min="1" max="3" step=".05" value="${crop.z}">
         <label class="label" for="yy">Yukarı / aşağı</label><input id="yy" type="range" min="0" max="1" step=".01" value="${crop.y}">
         <label class="label" for="xx">Sağa / sola</label><input id="xx" type="range" min="0" max="1" step=".01" value="${crop.x}">
@@ -1801,28 +1965,34 @@ function sheetMe(){
   $("#spF").onchange = spSave; $("#spB").onchange = spSave;
   // avatar
   const cv = $("#cv"), cur = S.avatar || {};
-  draft = {face:cur.face || null, skin:cur.skin || "#f2c9a8", hair:cur.hair || "#4a2f20", color:S.color, style:cur.style || "kisa", outfit:cur.outfit || "tulum", acc:cur.acc || null, g:cur.g || (["uzun","atkuyrugu","topuz","kakul","kivircikuzun"].includes(cur.style) || cur.outfit === "elbise" ? "kiz" : "erkek")};
+  draft = {look:cur.look || "dogal", face:cur.face || null, skin:cur.skin || "#f2c9a8", hair:cur.hair || "#4a2f20", color:S.color, style:cur.style || "kisa", outfit:cur.outfit || "tulum", acc:cur.acc || null, g:cur.g || (["uzun","atkuyrugu","topuz","kakul","kivircikuzun"].includes(cur.style) || cur.outfit === "elbise" ? "kiz" : "erkek")};
   const styOpts = () => { $("#styOpts").innerHTML = STYLES_G[draft.g].map(([k, l]) => `<button data-sty="${k}">${l}</button>`).join(""); $("#styOpts").querySelectorAll("[data-sty]").forEach(b => b.onclick = () => { draft.style = b.dataset.sty; redraw(); }); };
   const mark = () => {
     const P = (sel, key, v) => body().querySelectorAll(sel).forEach(x => x.setAttribute("aria-pressed", x.dataset[key] === v));
-    P("[data-h]", "h", draft.hair); P("[data-c]", "c", draft.color); P("[data-sk]", "sk", draft.skin); P("[data-sty]", "sty", draft.style); P("[data-out]", "out", draft.outfit); P("[data-gen]", "gen", draft.g);
+    P("[data-h]", "h", draft.hair); P("[data-c]", "c", draft.color); P("[data-sk]", "sk", draft.skin); P("[data-sty]", "sty", draft.style); P("[data-out]", "out", draft.outfit); P("[data-gen]", "gen", draft.g); P("[data-look]", "look", draft.look);
   };
-  let live = 0, faceT = 0;
+  let live = 0, faceT = 0, pvT = 0;
+  if (mePreview) mePreview.dispose();
+  const pv = mePreview = World.ok ? World.preview($("#mini3d")) : null;
+  if (!pv) $(".mini3d").hidden = true;
   const commit = () => {
     try {
       if (draft.face && typeof draft.face !== "string") draft.face = draft.face.toDataURL("image/png");
-      S.avatar = {face:draft.face || null, skin:draft.skin, hair:draft.hair, style:draft.style, outfit:draft.outfit, g:draft.g, acc:(S.avatar || {}).acc || null};
+      S.avatar = {face:draft.face || null, skin:draft.skin, hair:draft.hair, style:draft.style, outfit:draft.outfit, g:draft.g, look:draft.look, acc:(S.avatar || {}).acc || null};
       S.color = draft.color; save(); World.setAvatar(S.avatar, S.color); syncPresence();
       $("#mini").hidden = !!S.avatar.face;
     } catch { toast("Kaydedemedim, daha küçük bir fotoğraf dene"); }
   };
   const redraw = (photoChanged) => {
-    if (srcImg && photoChanged){ const f = makeFace(srcImg); draft.face = f.canvas; draft.skin = f.skin; }
+    if (srcImg && photoChanged){ const f = makeFace(srcImg, draft.look); draft.face = f.canvas; draft.skin = f.skin; }
     drawPreview(cv, draft); mark();
+    const gn = $("#guideNote"); if (gn) gn.hidden = !srcImg;
+    clearTimeout(pvT); pvT = setTimeout(() => { if (pv) pv.update(Object.assign({}, draft, {acc:(S.avatar || {}).acc || null}), draft.color); }, 120);
     clearTimeout(live); live = setTimeout(commit, 280);
   };
   const photoRedraw = () => { clearTimeout(faceT); faceT = setTimeout(() => redraw(true), 60); };
   styOpts(); redraw(false);
+  body().querySelectorAll("[data-look]").forEach(b => b.onclick = () => { draft.look = b.dataset.look; if (!srcImg && draft.face) toast("Görünüm, yeni yüklediğin fotoğrafa uygulanır"); redraw(true); });
   body().querySelectorAll("[data-gen]").forEach(b => b.onclick = () => { draft.g = b.dataset.gen; draft.style = draft.g === "kiz" ? "uzun" : "kisa"; draft.outfit = draft.g === "kiz" ? "elbise" : "tulum"; styOpts(); redraw(); });
   const sec = $("#avatarSec");
   sec.addEventListener("dragover", e => { e.preventDefault(); });
@@ -1860,7 +2030,7 @@ function sheetMe(){
     host.innerHTML = `<div class="modal"><div class="card"><h3>Her şey silinsin mi?</h3><p class="note" style="text-align:center;margin:0">Seansların, notların, hatırlatmaların ve minik karakterin silinir. Geri alınamaz.</p>
       <div class="row" style="justify-content:center"><button class="ghost" id="rsNo">Vazgeç</button><button class="big" id="rsYes" style="min-width:120px;height:48px;font-size:18px">Sil</button></div></div></div>`;
     $("#rsNo").onclick = () => host.innerHTML = "";
-    $("#rsYes").onclick = () => { leaveRoom(); S = defaults(); rt = {phase:"idle"}; save(); host.innerHTML = ""; closeSheet(); idleBubble(); };
+    $("#rsYes").onclick = () => { leaveRoom(); const uid = S._uid, del = S._del; S = Object.assign(defaults(), {_uid:uid, _del:del, _resetAt:Date.now(), _ft:{}}); rt = {phase:"idle", _at:Date.now()}; S.rt = rt; save(); host.innerHTML = ""; closeSheet(); idleBubble(); };
   };
 }
 
@@ -1998,8 +2168,8 @@ function sheetRoom(){
 const DISTR = ["Telefon", "Mesajlar", "Yorgunluk", "Gürültü", "Sıkıldım", "Açlık", "Hiçbir şey"];
 const MODES = [
   ["klasik", "Klasik", "Akışı bozmayan, sana göre öğrenen sayaç"],
-  ["arastir", "Araştır & Anlat", "Yapay zekasız araştır, sonra kısa sürede kendi cümlelerinle anlat"],
-  ["sprint", "Sprint", "Tek küçük hedef seç, sadece ona odaklan"],
+  ["arastir", "Araştır & Anlat", "Bir konu seç, kendin araştır, sonra kendi cümlelerinle anlat"],
+  ["sprint", "Tek Hedef", "Bu seansta bitireceğin tek bir küçük işi yaz, sadece ona odaklan"],
   ["sudoku", "Sudoku", "Süre tutan bulmaca, en iyi sürelerin kayıtlı"]
 ];
 const CONCEPTS = [
@@ -2065,11 +2235,146 @@ const CONCEPTS = [
   ["Bloom filter", "sw", "Bir elemanın kümede kesin olmadığını ya da muhtemelen olduğunu çok az bellekle söyleyen olasılıksal yapı."],
   ["Zero-downtime migration", "sw", "Şema değişikliğini genişlet-taşı-daralt adımlarıyla yaparak uygulamayı durdurmadan veritabanını değiştirme."]
 ];
-const CATN = {ai:"Yapay zeka", sw:"Yazılım & sistem", mine:"Benim listem"};
+const MORE_TOPICS = {
+  bilim: [
+    ["Entropi", "Bir sistemdeki düzensizliğin ölçüsü; kapalı bir sistemde kendiliğinden hep artma eğilimindedir."],
+    ["Kuantum dolanıklık", "İki parçacığın durumlarının aradaki mesafe ne olursa olsun birbirine bağlı kalması; birini ölçmek diğeri hakkında bilgi verir."],
+    ["CRISPR", "Bakterilerin savunma sisteminden uyarlanan, DNA'yı istenen noktadan kesip düzenlemeyi sağlayan gen düzenleme yöntemi."],
+    ["Fotosentez", "Bitkilerin ışık enerjisiyle karbondioksit ve sudan şeker ve oksijen üretmesi."],
+    ["Kara delik", "Kütlesi o kadar yoğun bir bölge ki ışık bile kaçamaz; sınırına olay ufku denir."],
+    ["mRNA aşıları", "Hücreye bir proteinin tarifini veren mRNA sayesinde vücudun o proteini üretip ona karşı bağışıklık geliştirmesi."],
+    ["Levha tektoniği", "Yer kabuğunun büyük levhalara bölünüp yavaşça hareket etmesi; deprem, dağ ve volkanların ana nedeni."],
+    ["Doğal seçilim", "Ortama daha uygun özellikleri taşıyan bireylerin daha çok hayatta kalıp üremesiyle türlerin zamanla değişmesi."],
+    ["Zaman genişlemesi (görelilik)", "Çok hızlı hareket eden ya da güçlü kütleçekimindeki saatlerin diğerlerine göre daha yavaş işlemesi."],
+    ["Mikrobiyom", "Vücudumuzda, özellikle bağırsakta yaşayan ve sağlığı etkileyen mikroorganizma topluluğu."],
+    ["Süperiletkenlik", "Bazı malzemelerin çok düşük sıcaklıklarda elektriği hiç direnç göstermeden iletmesi."],
+    ["Epigenetik", "DNA dizisi değişmeden genlerin açılıp kapanmasının çevre ve yaşam tarzıyla değişmesi."]
+  ],
+  psiko: [
+    ["Dunning-Kruger etkisi", "Bir konuda az bilgisi olanların kendi yetkinliklerini olduğundan yüksek değerlendirme eğilimi."],
+    ["Bilişsel çelişki", "İnancımızla davranışımız çeliştiğinde duyduğumuz rahatsızlık ve bunu azaltmak için düşüncemizi değiştirme eğilimi."],
+    ["Doğrulama yanlılığı", "İnancımızı destekleyen bilgiyi arayıp, onunla çelişeni görmezden gelme eğilimi."],
+    ["Akış (flow) hali", "İşin zorluğu ile becerimiz dengelendiğinde işe tamamen dalıp zamanı unuttuğumuz yoğun odak hali."],
+    ["Nöroplastisite", "Beynin öğrenme ve deneyimle yeni bağlantılar kurup kendini yeniden düzenleyebilmesi."],
+    ["Aralıklı tekrar", "Öğrenilen bilgiyi giderek uzayan aralıklarla tekrar ederek kalıcı hafızaya alma yöntemi."],
+    ["Dopamin ve ödül sistemi", "Dopaminin zevkten çok ödül beklentisi ve motivasyonla ilişkili olduğu beyin sistemi."],
+    ["Öğrenilmiş çaresizlik", "Kontrol edemediği kötü deneyimleri yaşayan kişinin, değiştirebileceği durumlarda bile denemekten vazgeçmesi."],
+    ["Gelişim zihniyeti", "Yeteneklerin sabit olmadığına, çabayla geliştirilebileceğine inanmanın öğrenmeyi olumlu etkilemesi (Carol Dweck)."],
+    ["Zeigarnik etkisi", "Yarım kalan işlerin, tamamlananlardan daha iyi akılda kalması."],
+    ["Seçim paradoksu", "Seçenek sayısı arttıkça karar vermenin zorlaşması ve yapılan seçimden duyulan memnuniyetin azalabilmesi."],
+    ["Sirkadiyen ritim", "Uyku, hormonlar ve vücut ısısını yaklaşık 24 saatlik döngüyle düzenleyen iç saat."]
+  ],
+  saglik: [
+    ["İnsülin direnci", "Hücrelerin insüline zayıf yanıt vermesi; kan şekerini düzenlemek için daha fazla insülin gerekir."],
+    ["Glisemik indeks", "Bir besinin kan şekerini ne kadar hızlı yükselttiğini gösteren ölçü."],
+    ["REM uykusu", "Gözlerin hızla hareket ettiği, rüyaların yoğun görüldüğü ve hafızanın pekiştiği uyku evresi."],
+    ["Kortizol", "Strese yanıt olarak salgılanan, enerji ve bağışıklığı düzenleyen hormon; sürekli yüksek kalması zararlıdır."],
+    ["Aralıklı oruç", "Yemeyi belirli saat aralıklarıyla sınırlayan beslenme düzeni (ör. 16 saat aç, 8 saat yemek)."],
+    ["VO2 max", "Vücudun egzersiz sırasında kullanabildiği en yüksek oksijen miktarı; kalp-damar kondisyonunun ölçüsü."],
+    ["Antibiyotik direnci", "Bakterilerin antibiyotiklere uyum sağlaması ve ilaçların etkisiz kalması."],
+    ["Bağırsak-beyin ekseni", "Bağırsak ile beyin arasında sinirler, hormonlar ve bağışıklık yoluyla süren iki yönlü iletişim."],
+    ["Aşamalı yüklenme", "Kas ve kuvvet gelişimi için antrenman yükünü zamanla kademeli artırma ilkesi."],
+    ["Melatonin", "Karanlıkta salgılanıp uykuya hazırlığı başlatan hormon; akşam ekran ışığı salgılanmasını geciktirebilir."]
+  ],
+  eko: [
+    ["Enflasyon", "Genel fiyat düzeyinin zamanla artması ve paranın satın alma gücünün düşmesi."],
+    ["Bileşik faiz", "Faizin sadece ana paraya değil, önceki dönemlerin faizine de işlemesi; birikim zamanla hızlanır."],
+    ["Arz ve talep", "Fiyatın, bir maldan ne kadar sunulduğu ile ne kadar istendiği arasındaki dengeyle belirlenmesi."],
+    ["Fırsat maliyeti", "Bir seçimi yaparken vazgeçtiğin en iyi alternatifin değeri."],
+    ["Merkez bankası faiz kararı", "Merkez bankasının politika faizini değiştirerek enflasyonu ve ekonomik hareketliliği yönlendirmesi."],
+    ["Endeks fonu", "Bir borsa endeksindeki şirketleri aynı oranlarda tutarak piyasanın ortalama getirisini hedefleyen düşük maliyetli fon."],
+    ["Çeşitlendirme", "Riski azaltmak için birikimi farklı varlıklara dağıtma; tüm yumurtaları aynı sepete koymamak."],
+    ["GSYİH", "Bir ülkede belirli bir dönemde üretilen tüm mal ve hizmetlerin toplam piyasa değeri."],
+    ["Davranışsal ekonomi", "İnsanların ekonomik kararlarda her zaman rasyonel davranmadığını ve psikolojinin etkisini inceleyen alan."],
+    ["Kayıptan kaçınma", "Bir kaybın verdiği üzüntünün, aynı büyüklükteki kazancın sevincinden daha güçlü hissedilmesi."],
+    ["Blokzincir", "Kayıtların birbirine bağlı bloklarda, merkezi bir otorite olmadan çok sayıda bilgisayarda tutulduğu ortak defter."]
+  ],
+  is: [
+    ["MVP (minimum uygulanabilir ürün)", "Bir fikri test etmek için en az emekle yapılan, temel işi gören ilk ürün sürümü."],
+    ["Ürün-pazar uyumu", "Bir ürünün onu gerçekten isteyen ve düzenli kullanan bir pazar bulması."],
+    ["OKR", "Hedefleri (Objective) ve onları ölçen somut sonuçları (Key Results) birlikte belirleyen hedef yönetimi yöntemi."],
+    ["Pareto ilkesi (80/20)", "Sonuçların büyük kısmının nedenlerin küçük bir kısmından gelmesi."],
+    ["Eisenhower matrisi", "İşleri acil ve önemli olmalarına göre dört kutuya ayırıp önceliklendirme yöntemi."],
+    ["Ağ etkisi", "Bir ürünü kullanan kişi sayısı arttıkça ürünün herkes için daha değerli hale gelmesi."],
+    ["Değer önerisi", "Bir ürünün müşteriye hangi sorunu nasıl çözdüğünü ve neden rakiplerden iyi olduğunu anlatan vaat."],
+    ["A/B testi", "İki sürümü rastgele gruplara gösterip hangisinin daha iyi sonuç verdiğini ölçme."],
+    ["Kanban", "İşleri sütunlarda görselleştirip aynı anda yapılan iş sayısını sınırlayan iş akışı yöntemi."],
+    ["Pomodoro tekniği", "İşi kısa odak aralıklarına ve molalara bölerek çalışma yöntemi (Francesco Cirillo)."],
+    ["Derin çalışma", "Dikkat dağıtıcılar olmadan, zihinsel olarak zorlayıcı bir işe uzun süre odaklanma (Cal Newport)."]
+  ],
+  tarih: [
+    ["Sanayi Devrimi", "18. yüzyıl sonunda İngiltere'de başlayan, buhar gücü ve fabrikalarla üretimin makineleşmesi süreci."],
+    ["İpek Yolu", "Çin'i Orta Asya ve Orta Doğu üzerinden Akdeniz'e bağlayan, mal ve fikirlerin taşındığı ticaret yolları ağı."],
+    ["Rönesans", "14.-17. yüzyıllarda İtalya'da başlayıp Avrupa'ya yayılan, sanat ve bilimde antik çağa ilgiyle gelen yeniden doğuş dönemi."],
+    ["Matbaanın yaygınlaşması", "Gutenberg'in 15. yüzyılda hareketli harflerle baskıyı yaygınlaştırması ve bilginin hızla yayılması."],
+    ["Lale Devri", "Osmanlı'da 1718-1730 arasında barış, eğlence ve Batı'ya ilgiyle öne çıkan dönem; ilk Türk matbaası bu dönemde kuruldu."],
+    ["Soğuk Savaş", "II. Dünya Savaşı'ndan sonra ABD ile SSCB arasında doğrudan savaşa dönüşmeyen siyasi, askeri ve ideolojik rekabet."],
+    ["Tanzimat Fermanı", "1839'da Osmanlı'da can ve mal güvenliği ile hukuk önünde eşitliği ilan eden reform belgesi."],
+    ["Neolitik Devrim", "İnsanların avcı-toplayıcılıktan tarıma ve yerleşik hayata geçmesi."],
+    ["Göbeklitepe", "Şanlıurfa'da yaklaşık 11 bin yıllık, bilinen en eski anıtsal yapılardan biri."],
+    ["Magna Carta", "1215'te İngiltere'de kralın yetkilerini sınırlayan ve hukukun üstünlüğü fikrinin temellerinden sayılan belge."],
+    ["Fransız Devrimi", "1789'da başlayan, mutlak monarşiyi yıkıp özgürlük ve eşitlik fikirlerini yayan devrim."],
+    ["Ay'a iniş (Apollo 11)", "1969'da insanların ilk kez Ay yüzeyine ayak bastığı NASA görevi."]
+  ],
+  felsefe: [
+    ["Stoacılık", "Kontrol edebildiklerimize odaklanıp edemediklerimizi kabullenmeyi öğütleyen antik felsefe okulu."],
+    ["Ockham'ın usturası", "Aynı şeyi açıklayan seçenekler arasında daha az varsayım içerenin tercih edilmesi ilkesi."],
+    ["Mağara alegorisi", "Platon'un, gölgeleri gerçek sanan insanlar benzetmesiyle görünen ile gerçek arasındaki farkı anlatması."],
+    ["Varoluşçuluk", "İnsanın önce var olduğunu ve hayatının anlamını kendi seçimleriyle yarattığını savunan akım (Sartre)."],
+    ["Faydacılık", "Bir eylemin doğruluğunu, en çok kişiye en çok mutluluğu sağlayıp sağlamadığına göre değerlendiren etik görüş."],
+    ["Kategorik buyruk", "Kant'a göre ancak herkes için evrensel bir yasa olmasını isteyebileceğin ilkeye göre davranmalısın."],
+    ["Theseus'un gemisi", "Tüm parçaları zamanla değiştirilen bir şeyin hâlâ aynı şey olup olmadığını soran kimlik paradoksu."],
+    ["Tramvay problemi", "Birkaç kişiyi kurtarmak için birini feda etmenin ahlaki olup olmadığını sorgulayan düşünce deneyi."],
+    ["Sokratik yöntem", "Sorular sorarak varsayımları sınayan ve birlikte düşünmeye dayanan tartışma yöntemi."],
+    ["Absürdizm", "Camus'ye göre insanın anlam arayışı ile evrenin sessizliği arasındaki çatışma ve buna rağmen yaşamayı seçmek."]
+  ],
+  sanat: [
+    ["Altın oran", "Yaklaşık 1,618'e eşit, bütünün büyük parçaya oranının büyük parçanın küçüğe oranına eşit olduğu orantı."],
+    ["Üçler kuralı", "Fotoğraf ya da resimde kareyi üçe bölüp önemli öğeleri çizgilerin kesiştiği noktalara yerleştirme."],
+    ["Tamamlayıcı renkler", "Renk çemberinde karşı karşıya duran renklerin (ör. mavi ve turuncu) yan yana en güçlü kontrastı oluşturması."],
+    ["Empresyonizm", "19. yüzyılda ışığın anlık etkisini hızlı fırça darbeleriyle yakalamaya çalışan resim akımı (Monet)."],
+    ["Bauhaus", "1919'da Almanya'da kurulan, sanatı, zanaatı ve işlevselliği birleştiren tasarım okulu."],
+    ["Perspektif", "İki boyutlu yüzeyde kaçış noktaları kullanarak derinlik yanılsaması yaratma tekniği."],
+    ["Majör ve minör tonlar", "Müzikte majör dizilerin genellikle neşeli, minör dizilerin hüzünlü algılanması."],
+    ["Kahramanın yolculuğu", "Joseph Campbell'ın birçok mitte bulduğu; çağrı, sınavlar ve dönüşümle ilerleyen ortak hikâye kalıbı."],
+    ["Tipografi", "Yazının okunaklı ve etkili olması için yazı tipi, boyut, aralık ve düzenin tasarlanması."],
+    ["Ebru sanatı", "Kitreli su üzerine boyalar serpilip desen oluşturulan ve kâğıda aktarılan geleneksel sanat."],
+    ["Sürrealizm", "Bilinçaltını ve rüyaları mantık dışı imgelerle anlatan sanat akımı (Dalí, Magritte)."],
+    ["Wabi-sabi", "Kusurlu, geçici ve sade olandaki güzelliği öne çıkaran Japon estetik anlayışı."]
+  ],
+  dil: [
+    ["Sapir-Whorf hipotezi", "Konuştuğumuz dilin dünyayı algılama ve düşünme biçimimizi etkilediği fikri."],
+    ["Eklemeli dil", "Kök kelimeye art arda ekler getirilerek anlam kurulan dil türü; Türkçe buna örnektir."],
+    ["Ünlü uyumu", "Türkçede bir kelimedeki ünlülerin kalınlık-incelik ve düzlük-yuvarlaklık bakımından uyumlu olması."],
+    ["Bilinç akışı", "Karakterin düşüncelerini akıldan geçtiği gibi, düzenlemeden aktaran anlatım tekniği (Virginia Woolf)."],
+    ["Metafor", "Bir şeyi benzerlik yoluyla başka bir şeymiş gibi anlatan söz sanatı."],
+    ["Büyülü gerçekçilik", "Gerçekçi bir dünyada doğaüstü olayların olağanmış gibi anlatıldığı edebi tür (García Márquez)."],
+    ["Divan edebiyatı", "Osmanlı'da Arap ve Fars etkisiyle, aruz ölçüsü ve kalıplaşmış imgelerle yazılan klasik edebiyat."],
+    ["Distopya", "Baskıcı ya da çökmüş bir toplumu anlatan kurgu türü (1984, Cesur Yeni Dünya)."],
+    ["Çehov'un silahı", "Hikâyede gösterilen her önemli ayrıntının sonradan bir işe yaraması gerektiği ilkesi."],
+    ["Etimoloji", "Kelimelerin kökenini ve zaman içinde nasıl değiştiğini inceleyen bilim."]
+  ],
+  doga: [
+    ["Sera etkisi", "Atmosferdeki bazı gazların ısıyı tutarak Dünya'yı ısıtması; bu gazlar arttıkça küresel ısınma hızlanır."],
+    ["Karbon ayak izi", "Bir kişi, ürün ya da kurumun neden olduğu toplam sera gazı salımı."],
+    ["Biyoçeşitlilik", "Bir bölgedeki canlı türlerinin, genlerin ve ekosistemlerin çeşitliliği."],
+    ["Yenilenebilir enerji", "Güneş, rüzgâr ve su gibi tükenmeyen kaynaklardan elde edilen enerji."],
+    ["Okyanus asitlenmesi", "Okyanusların atmosferden karbondioksit emerek asitleşmesi; mercan ve kabuklu canlıları etkiler."],
+    ["Mikoriza", "Mantarlar ile bitki kökleri arasında besin ve su alışverişine dayanan ortak yaşam."],
+    ["Besin zinciri", "Enerjinin üreticilerden tüketicilere ve ayrıştırıcılara aktarıldığı canlılar dizisi."],
+    ["Döngüsel ekonomi", "Ürünleri atmak yerine onarıp yeniden kullanarak ve geri dönüştürerek atığı en aza indiren ekonomi modeli."],
+    ["Kuşların göç ederken yön bulması", "Göçmen kuşların Dünya'nın manyetik alanı, güneş ve yıldızları kullanarak binlerce kilometre yol bulması."],
+    ["El Niño", "Pasifik Okyanusu'nda yüzey sularının dönemsel ısınması; dünya genelinde hava olaylarını etkiler."]
+  ]
+};
+for (const c in MORE_TOPICS) MORE_TOPICS[c].forEach(([n, h]) => CONCEPTS.push([n, c, h]));
+const CATN = {ai:"Yapay zeka", sw:"Yazılım", bilim:"Bilim", psiko:"Psikoloji & beyin", saglik:"Sağlık & beden", eko:"Ekonomi & para", is:"İş & verimlilik", tarih:"Tarih", felsefe:"Felsefe", sanat:"Sanat & tasarım", dil:"Dil & edebiyat", doga:"Doğa & çevre", mine:"Benim listem"};
+const CAT_KEYS = Object.keys(CATN);
+const selCats = () => { const c = Array.isArray(S.cats) && S.cats.length ? S.cats.filter(k => CATN[k]) : CAT_KEYS; return c.length ? c : CAT_KEYS; };
 function conceptPool(){
-  const mine = S.myConcepts.map(n => [n, "mine", ""]);
-  const f = S.cFilter;
-  const pool = f === "mine" ? mine : f === "mix" ? CONCEPTS.concat(mine) : CONCEPTS.filter(c => c[1] === f);
+  const cats = new Set(selCats());
+  const mine = cats.has("mine") ? S.myConcepts.map(n => [n, "mine", ""]) : [];
+  const pool = CONCEPTS.filter(c => cats.has(c[1])).concat(mine);
   return pool.length ? pool : CONCEPTS;
 }
 function pickConcept(){
@@ -2094,38 +2399,66 @@ function renderModes(){
   if (rt.phase !== "idle") return;
   const ar = S.mode === "arastir";
   $("#intent").hidden = ar;
-  $("#intent").placeholder = S.mode === "sprint" ? "Tek bir mini hedef (ör. giriş formunu doğrula)" : "Bu seansta ne yapıyoruz?";
+  $("#intent").placeholder = S.mode === "sprint" ? "Tek hedefin ne? (ör. Raporun giriş paragrafını yaz)" : "Bu seansta ne yapıyoruz?";
   if (ar) $("#lastNote").hidden = true;
   const card = $("#modeCard");
+  if (S.mode === "sprint"){
+    const EX = ["Raporun giriş paragrafını yaz", "Sunumun 3. slaytını bitir", "20 kelime ezberle", "Bir bölüm oku, 3 not çıkar", "Mutfağı topla", "Bir hatayı bul ve düzelt"];
+    card.innerHTML = `<div class="concept glass">
+      <span class="tag">Tek Hedef nasıl çalışır?</span>
+      <p class="rule" style="margin:0">Büyük işin tamamını değil, <b>bu seansta bitirebileceğin tek küçük parçayı</b> aşağıya yaz. Süre boyunca sadece ona bak, başka işe geçme. Süre bitince “Bitti mi?” diye sorarım; bitirirsen ekstra yıldız kazanırsın.</p>
+      <div class="label">Örnek hedefler (dokununca yazılır)</div>
+      <div class="opts">${EX.map(x => `<button data-ex="${esc(x)}" style="font-size:12px;padding:5px 10px">${esc(x)}</button>`).join("")}</div>
+    </div>` + nextPlanChip();
+    card.querySelectorAll("[data-ex]").forEach(b => b.onclick = () => { $("#intent").value = b.dataset.ex; $("#intent").focus(); });
+    bindPlanChip(); return;
+  }
   if (!ar){ card.innerHTML = nextPlanChip(); bindPlanChip(); return; }
   if (!S.concept) pickConcept();
-  const c = S.concept, q = encodeURIComponent(c.name.replace(/\(.*?\)/g, "").trim());
+  const c = S.concept, q = encodeURIComponent(c.name.replace(/\(.*?\)/g, "").trim()), tech = c.cat === "ai" || c.cat === "sw", cats = selCats();
   card.innerHTML = `<div class="concept glass">
     <div class="row" style="justify-content:space-between"><span class="tag">${CATN[c.cat] || "Konu"}</span>
-      <div class="opts">${[["mix","Karışık"],["ai","Yapay zeka"],["sw","Yazılım"],["mine","Benim"]].map(([k, l]) => `<button data-cf="${k}" aria-pressed="${S.cFilter === k}" style="padding:4px 10px;font-size:12px">${l}</button>`).join("")}</div></div>
+      <button class="pill" id="cCats" style="font-size:12px;padding:5px 11px">Konular · ${cats.length === CAT_KEYS.length ? "hepsi" : cats.length}</button></div>
+    <div id="catBox" hidden><div class="label" style="margin-bottom:6px">Hangi alanlardan konu gelsin?</div>
+      <div class="opts">${CAT_KEYS.map(k => `<button data-cat="${k}" aria-pressed="${cats.includes(k)}" style="padding:5px 11px;font-size:12px">${CATN[k]}</button>`).join("")}</div>
+      <div class="row" style="margin-top:8px"><button class="pill" id="catAll" style="font-size:12px">Hepsini seç</button><button class="pill primary" id="catOk" style="font-size:12px">Tamam</button></div></div>
     <h3>${esc(c.name)}</h3>
-    <p class="rule"><b>Kural:</b> ${S.ar.r} dakika yapay zekaya sormak yok. Resmi dokümantasyon, makale, mühendislik blogu, kitap serbest. Süre bitince ${S.ar.e} dakikada kendi cümlelerinle anlatacaksın.</p>
+    <p class="rule"><b>Kural:</b> ${S.ar.r} dakika yapay zekaya sormadan kendin araştır. Kitap, ansiklopedi, makale, video, resmi kaynaklar serbest. Süre bitince ${S.ar.e} dakikada konuyu hiç bilmeyen birine anlatır gibi kendi cümlelerinle anlatacaksın.</p>
     <div class="links">
-      <a href="https://www.google.com/search?q=${q}+documentation" target="_blank" rel="noopener">Google</a>
-      ${c.cat !== "sw" ? `<a href="https://arxiv.org/search/?query=${q}&searchtype=all" target="_blank" rel="noopener">arXiv</a>` : ""}
-      <a href="https://en.wikipedia.org/w/index.php?search=${q}" target="_blank" rel="noopener">Wikipedia</a>
-      <a href="https://github.com/search?q=${q}&type=repositories" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.google.com/search?q=${q}${tech ? "+documentation" : ""}" target="_blank" rel="noopener">Google</a>
+      <a href="https://${tech ? "en" : "tr"}.wikipedia.org/w/index.php?search=${q}" target="_blank" rel="noopener">Wikipedia</a>
+      ${c.cat === "ai" || c.cat === "bilim" ? `<a href="https://arxiv.org/search/?query=${q}&searchtype=all" target="_blank" rel="noopener">arXiv</a>` : ""}
+      ${tech ? `<a href="https://github.com/search?q=${q}&type=repositories" target="_blank" rel="noopener">GitHub</a>` : `<a href="https://www.youtube.com/results?search_query=${q}" target="_blank" rel="noopener">YouTube</a>`}
     </div>
     <div class="row"><button class="pill primary" id="cWheel">Çarkı çevir</button><button class="pill" id="cNext">Başka konu</button>${sampleApi ? `<button class="pill" id="cAI">Claude'dan yeni konu</button>` : ""}<button class="pill" id="cMine">+ Kendi konum</button></div>
-    <div class="row" id="cMineRow" hidden><div class="field"><input id="cMineIn" maxlength="60" placeholder="Ör. Kubernetes operator"></div><button class="pill primary" id="cMineAdd">Ekle</button></div>
+    <div class="row" id="cMineRow" hidden><div class="field"><input id="cMineIn" maxlength="60" placeholder="Ör. Osmanlı mimarisi, Kuantum bilgisayar"></div><button class="pill primary" id="cMineAdd">Ekle</button></div>
   </div>`;
-  card.querySelectorAll("[data-cf]").forEach(b => b.onclick = () => { S.cFilter = b.dataset.cf; if (S.cFilter === "mine" && !S.myConcepts.length){ $("#cMineRow").hidden = false; toast("Önce kendi listene bir konu ekle"); return; } pickConcept(); render(); });
-  $("#cNext").onclick = () => { pickConcept(); render(); };
-  $("#cWheel").onclick = openWheel;
+  let draftCats = new Set(cats);
+  $("#cCats").onclick = () => { $("#catBox").hidden = !$("#catBox").hidden; };
+  card.querySelectorAll("[data-cat]").forEach(b => b.onclick = () => {
+    const k = b.dataset.cat; draftCats.has(k) ? draftCats.delete(k) : draftCats.add(k);
+    if (!draftCats.size){ draftCats.add(k); return toast("En az bir alan seçili kalmalı"); }
+    b.setAttribute("aria-pressed", draftCats.has(k));
+  });
+  $("#catAll").onclick = () => { draftCats = new Set(CAT_KEYS); card.querySelectorAll("[data-cat]").forEach(b => b.setAttribute("aria-pressed", "true")); };
+  $("#catOk").onclick = () => {
+    S.cats = CAT_KEYS.filter(k => draftCats.has(k));
+    if (S.cats.length === 1 && S.cats[0] === "mine" && !S.myConcepts.length){ toast("Önce “+ Kendi konum” ile listene konu ekle"); S.cats = CAT_KEYS.slice(); }
+    S.wheel = null;
+    if (!selCats().includes(S.concept.cat)) pickConcept(); else save();
+    render();
+  };
+  $("#cNext").onclick = () => { if (S.wheel) S.wheel.result = null; pickConcept(); render(); };
+  $("#cWheel").onclick = () => openWheel(false);
   $("#cMine").onclick = () => { $("#cMineRow").hidden = !$("#cMineRow").hidden; $("#cMineIn") && $("#cMineIn").focus(); };
   $("#cMineAdd").onclick = () => { const v = $("#cMineIn").value.trim(); if (!v) return; S.myConcepts.unshift(v); S.myConcepts = [...new Set(S.myConcepts)].slice(0, 100); S.concept = {name:v, cat:"mine", hint:""}; save(); render(); };
   $("#cAI") && ($("#cAI").onclick = async () => {
     const btn = $("#cAI"); btn.disabled = true; btn.textContent = "Düşünüyor…";
     const recent = S.learned.slice(0, 30).map(l => l.name).concat(S.concept ? [S.concept.name] : []);
-    const area = S.cFilter === "sw" ? "yazılım mimarisi ve sistem tasarımı" : S.cFilter === "ai" ? "yapay zeka ve büyük dil modelleri" : "yapay zeka veya yazılım mühendisliği";
+    const areaCats = selCats().filter(k => k !== "mine"), area = (areaCats.length ? areaCats : CAT_KEYS.filter(k => k !== "mine")).map(k => CATN[k]).join(", ");
     try {
-      const r = await sampleApi.json(`${area} alanında, 15 dakikada araştırılıp 2 dakikada anlatılabilecek, güncel ve somut TEK bir kavram öner. Çok genel olmasın (ör. "makine öğrenmesi" olmaz), bir teknik, kalıp, algoritma ya da mimari olsun. Şunlar hariç: ${recent.join(", ") || "yok"}. Sadece şu JSON'u döndür: {"name":"kavramın yaygın adı (gerekirse parantez içinde kısaltma)","cat":"ai" ya da "sw","hint":"tek cümlelik doğru, sade Türkçe tanım"}`, {modelTier:"quick", cache:false});
-      if (r && r.name){ S.concept = {name:String(r.name).slice(0, 80), cat:r.cat === "sw" ? "sw" : "ai", hint:String(r.hint || "").slice(0, 300)}; save(); }
+      const r = await sampleApi.json(`Şu alanlardan birinden, ${S.ar.r} dakikada araştırılıp ${S.ar.e} dakikada anlatılabilecek, ilginç ve somut TEK bir kavram öner: ${area}. Çok genel olmasın (ör. "tarih" ya da "biyoloji" olmaz). Şunlar hariç: ${recent.join(", ") || "yok"}. Sadece şu JSON'u döndür: {"name":"kavramın Türkçe yaygın adı","cat":"şunlardan biri: ${CAT_KEYS.filter(k => k !== "mine").join(", ")}","hint":"tek cümlelik doğru, sade Türkçe tanım"}`, {modelTier:"quick", cache:false});
+      if (r && r.name){ S.concept = {name:String(r.name).slice(0, 80), cat:CATN[r.cat] && r.cat !== "mine" ? r.cat : (areaCats[0] || "bilim"), hint:String(r.hint || "").slice(0, 300)}; save(); }
     } catch (e) { toast(e && e.code === "not_granted" ? "Claude'a izin verilmedi; listeden seçiyorum" : "Şu an konu üretemedim, listeden seçiyorum"); pickConcept(); }
     render();
   });
@@ -2166,7 +2499,7 @@ function finishArastir(text, voice){
   planTick(c.name, "arastir");
   $("#modalHost").innerHTML = "";
   setRt({phase:"break", stage:null, breakStart:t, endsAt:t + S.ar.b * 60000, breakPlanned:S.ar.b, learnedId:t, exText:""});
-  S.concept = null; pickConcept();
+  S.concept = null; S.wheel = null; pickConcept();
   wakeOff(); chime(false); syncPresence(); render();
   bubble(text || voice ? "Harika anlattın! Molada istersen Claude'a kontrol ettirebilirsin." : "Bu sefer anlatmadın, sorun değil. Bir dahakine 2 dakika ayır.");
   setTimeout(() => gain(actual + 15, Math.max(2, Math.round(actual / 5) + 1), "araştır & anlat"), 900);
@@ -2241,22 +2574,28 @@ $("#time").onkeydown = e => { if (e.key === "Enter" || e.key === " "){ e.prevent
 
 /* ---------- concept wheel ---------- */
 let wheel = null;
-function openWheel(){
-  const pool = shuffle(conceptPool().slice()).slice(0, 8);
-  if (pool.length < 2){ toast("Çark için en az 2 konu lazım"); return; }
-  wheel = {items:pool, rot:0, spinning:false, result:null};
+function openWheel(fresh){
+  const valid = S.wheel && Array.isArray(S.wheel.items) && S.wheel.items.length >= 2;
+  if (fresh === true || !valid){
+    const pool = shuffle(conceptPool().slice()).slice(0, 8);
+    if (pool.length < 2){ toast("Çark için en az 2 konu lazım"); return; }
+    S.wheel = {items:pool, result:null}; save();
+  }
+  const n = S.wheel.items.length, seg = Math.PI * 2 / n, r = S.wheel.result;
+  wheel = {items:S.wheel.items, rot:r != null ? -Math.PI / 2 - (r * seg + seg / 2) : 0, spinning:false, result:r != null ? S.wheel.items[r] : null};
   const host = $("#modalHost");
   host.innerHTML = `<div class="modal"><div class="card">
     <div class="row" style="justify-content:space-between"><h3 style="text-align:left">Konu çarkı</h3><button class="x" id="wX" aria-label="Kapat">×</button></div>
     <div class="wheelwrap"><canvas id="wheel" width="600" height="600" aria-label="Konu çarkı"></canvas><div class="ptr"></div></div>
-    <div class="wheelres" id="wRes">Çevir bakalım!</div>
-    <div class="row" style="justify-content:center"><button class="big" id="wSpin" style="min-width:140px;height:52px;font-size:19px">Çevir</button><button class="ghost" id="wUse" hidden>Bunu seç</button><button class="ghost" id="wNew">Yeni dilimler</button></div>
+    <div class="wheelres" id="wRes">${wheel.result ? esc(wheel.result[0]) : "Çevir bakalım!"}</div>
+    <p class="note" id="wHint" style="margin:0;text-align:center">${wheel.result ? "Bu konu kaydedildi. Değiştirmek istersen tekrar çevir." : ""}</p>
+    <div class="row" style="justify-content:center"><button class="big" id="wSpin" style="min-width:140px;height:52px;font-size:19px">${wheel.result ? "Tekrar çevir" : "Çevir"}</button><button class="ghost" id="wUse" ${wheel.result ? "" : "hidden"}>Tamam, bununla başla</button><button class="ghost" id="wNew">Yeni dilimler</button></div>
   </div></div>`;
   drawWheel();
   $("#wX").onclick = () => { host.innerHTML = ""; };
   $("#wSpin").onclick = spinWheel;
-  $("#wNew").onclick = openWheel;
-  $("#wUse").onclick = () => { const c = wheel.result; S.concept = {name:c[0], cat:c[1], hint:c[2]}; save(); host.innerHTML = ""; render(); bubble(`Bugünün konusu: ${c[0]}`, "Hazır olunca başlat."); };
+  $("#wNew").onclick = () => openWheel(true);
+  $("#wUse").onclick = () => { host.innerHTML = ""; render(); if (wheel.result) bubble(`Konun: ${wheel.result[0]}`, "Hazır olunca başlat."); };
 }
 function drawWheel(){
   const cv = document.getElementById("wheel"); if (!cv || !wheel) return;
@@ -2294,14 +2633,19 @@ function spinWheel(){
     if (cs !== lastSeg){ lastSeg = cs; tickSound(); }
     if (k < 1) return requestAnimationFrame(frame);
     wheel.spinning = false; wheel.result = wheel.items[pick];
-    $("#wRes").textContent = wheel.result[0]; $("#wUse").hidden = false; chime(true);
+    const c = wheel.result;
+    S.wheel = Object.assign({}, S.wheel || {items:wheel.items}, {result:pick});
+    S.concept = {name:c[0], cat:c[1], hint:c[2]}; save(); render();
+    $("#wRes").textContent = c[0]; $("#wUse").hidden = false; $("#wSpin").textContent = "Tekrar çevir";
+    const h = $("#wHint"); if (h) h.textContent = "Bu konu kaydedildi; pencereyi kapatsan da kaybolmaz.";
+    chime(true);
   };
   requestAnimationFrame(frame);
 }
 function tickSound(){ const a = actx; if (!a) return; const o = a.createOscillator(), g = a.createGain(); o.type = "triangle"; o.frequency.value = 1200; g.gain.setValueAtTime(.05, a.currentTime); g.gain.exponentialRampToValueAtTime(.0001, a.currentTime + .05); o.connect(g).connect(a.destination); o.start(); o.stop(a.currentTime + .06); }
 
 /* ---------- day plan ---------- */
-const PMODE = {klasik:"Klasik", sprint:"Sprint", arastir:"Araştır & Anlat"};
+const PMODE = {klasik:"Klasik", sprint:"Tek Hedef", arastir:"Araştır & Anlat"};
 function planToday(){
   if (!S.plan || S.plan.date !== dkey()){
     const left = S.plan && S.plan.items ? S.plan.items.filter(i => i.done < i.n) : [];
@@ -2375,143 +2719,6 @@ function nextPlanChip(){
   return `<div class="nextchip glass"><div style="min-width:0"><small>Plandaki sıradaki</small>${esc(it.t)} · ${it.done}/${it.n} 🍅</div><button class="pill primary" data-pgo="${it.id}">Başla</button></div>`;
 }
 function bindPlanChip(){ $("#modeCard").querySelectorAll("[data-pgo]").forEach(b => b.onclick = () => startPlanItem(+b.dataset.pgo)); }
-
-/* ---------- board (pano) ---------- */
-const LABELS = ["", "#e07a5f", "#f2b04a", "#81b29a", "#5fa8d3", "#9b7fd1", "#e58fb5"];
-function B(){
-  if (!S.board) S.board = {cols:[{id:"todo", t:"Yapılacak"}, {id:"doing", t:"Yapılıyor"}, {id:"done", t:"Bitti"}], cards:[]};
-  return S.board;
-}
-function boardTick(intent){
-  const low = intent.toLocaleLowerCase("tr"); if (!low) return;
-  const c = B().cards.find(k => k.t.toLocaleLowerCase("tr") === low && k.col !== "done"); if (c){ c.pomo = (c.pomo || 0) + 1; save(); }
-}
-function moveCard(id, col, idx){
-  const b = B(), i = b.cards.findIndex(k => k.id === id); if (i < 0) return;
-  const [c] = b.cards.splice(i, 1); const was = c.col; c.col = col;
-  const inCol = b.cards.filter(k => k.col === col);
-  const before = idx == null || idx >= inCol.length ? null : inCol[idx];
-  b.cards.splice(before ? b.cards.indexOf(before) : b.cards.length, 0, c);
-  if (col === "done" && was !== "done"){ c.doneAt = now(); gain(5, 1, "kart bitti"); }
-  save();
-}
-function sheetBoard(){
-  const b = B();
-  body().innerHTML = `<h2>Pano</h2><p class="sub">Kartları sürükleyip listeler arasında taşı (telefonda karta basılı tut). 🍅 ile o işe hemen başla.</p>
-  <div class="board" id="board">${b.cols.map(col => { const cards = b.cards.filter(k => k.col === col.id);
-    return `<section class="bcol" data-col="${col.id}"><header><b data-rename="${col.id}" title="Adını değiştirmek için dokun">${esc(col.t)}</b><small>${cards.length}</small>${col.id === "done" && cards.length ? `<button class="pill" data-clear="1" style="padding:3px 9px;font-size:12px">Temizle</button>` : ""}${!["todo","doing","done"].includes(col.id) ? `<button class="x" data-delcol="${col.id}" aria-label="Listeyi sil">×</button>` : ""}</header>
-      <div class="bcards">${cards.map(k => `<article class="kcard${col.id === "done" ? " done" : ""}" data-card="${k.id}" style="--lab:${k.lab || "transparent"}"><span class="kt">${esc(k.t)}</span><div class="km">${col.id !== "done" ? `<button data-go="${k.id}" aria-label="Bu işe başla">🍅 Başla</button>` : ""}${k.pomo ? `<span>${"🍅".repeat(Math.min(k.pomo, 8))}</span>` : ""}<span style="margin-left:auto">⋯</span></div></article>`).join("")}</div>
-      <div class="kadd"><input data-add="${col.id}" maxlength="120" placeholder="+ Kart ekle"></div>
-    </section>`; }).join("")}
-    <section class="bcol" style="background:transparent;border:2px dashed var(--line);justify-content:center;align-items:center"><button class="ghost" id="addCol">+ Liste ekle</button></section>
-  </div>`;
-  const root = body();
-  root.querySelectorAll("[data-add]").forEach(inp => inp.onkeydown = e => {
-    if (e.key !== "Enter") return; const v = inp.value.trim(); if (!v) return; inp.value = "";
-    B().cards.push({id:now(), col:inp.dataset.add, t:v, lab:""}); save(); const sc = $("#board").scrollLeft; sheetBoard(); $("#board").scrollLeft = sc;
-    const again = body().querySelector(`[data-add="${inp.dataset.add}"]`); again && again.focus();
-  });
-  root.querySelectorAll("[data-add]").forEach(inp => inp.onblur = () => { const v = inp.value.trim(); if (v){ B().cards.push({id:now(), col:inp.dataset.add, t:v, lab:""}); save(); setTimeout(() => { const sc = $("#board") ? $("#board").scrollLeft : 0; sheetBoard(); $("#board").scrollLeft = sc; }, 0); } });
-  root.querySelectorAll("[data-go]").forEach(btn => btn.onclick = e => { e.stopPropagation(); startCard(+btn.dataset.go); });
-  root.querySelectorAll("[data-clear]").forEach(btn => btn.onclick = () => { B().cards = B().cards.filter(k => k.col !== "done"); save(); sheetBoard(); });
-  root.querySelectorAll("[data-delcol]").forEach(btn => btn.onclick = () => { const id = btn.dataset.delcol; B().cards.forEach(k => { if (k.col === id) k.col = "todo"; }); B().cols = B().cols.filter(c => c.id !== id); save(); sheetBoard(); });
-  root.querySelectorAll("[data-rename]").forEach(el => el.onclick = () => renameCol(el.dataset.rename));
-  $("#addCol").onclick = () => { B().cols.splice(B().cols.length - 1, 0, {id:"c" + now(), t:"Yeni liste"}); save(); sheetBoard(); setTimeout(() => { const bd = $("#board"); bd.scrollLeft = bd.scrollWidth; }, 30); };
-  root.querySelectorAll(".kcard").forEach(el => bindDrag(el));
-}
-function renameCol(id){
-  const col = B().cols.find(c => c.id === id); if (!col) return;
-  const host = $("#modalHost");
-  host.innerHTML = `<div class="modal"><div class="card"><h3>Liste adı</h3><div class="field"><input id="rcIn" maxlength="30" value="${esc(col.t)}"></div>
-    <div class="row" style="justify-content:center"><button class="ghost" id="rcX">Vazgeç</button><button class="big" id="rcOk" style="min-width:120px;height:48px;font-size:18px">Kaydet</button></div></div></div>`;
-  const inp = $("#rcIn"); inp.focus(); inp.select();
-  const ok = () => { const v = inp.value.trim(); if (v){ col.t = v; save(); } host.innerHTML = ""; sheetBoard(); };
-  $("#rcOk").onclick = ok; inp.onkeydown = e => { if (e.key === "Enter") ok(); }; $("#rcX").onclick = () => host.innerHTML = "";
-}
-function editCard(id){
-  const k = B().cards.find(x => x.id === id); if (!k) return;
-  const host = $("#modalHost");
-  host.innerHTML = `<div class="modal"><div class="card kedit">
-    <h3>Kart</h3>
-    <textarea id="kT" rows="3" maxlength="200">${esc(k.t)}</textarea>
-    <div class="label">Renk</div>
-    <div class="swatches">${LABELS.map(c => `<button data-lab="${c}" aria-pressed="${(k.lab || "") === c}" style="background:${c || "var(--field)"}" aria-label="${c ? "Renk " + c : "Renksiz"}"></button>`).join("")}</div>
-    <div class="label">Taşı</div>
-    <div class="opts">${B().cols.map(c => `<button data-mv="${c.id}" aria-pressed="${k.col === c.id}">${esc(c.t)}</button>`).join("")}</div>
-    <div class="row" style="justify-content:center">${k.col !== "done" ? `<button class="big" id="kGo" style="min-width:130px;height:48px;font-size:18px">🍅 Başla</button>` : ""}<button class="ghost" id="kSave">Kaydet</button><button class="ghost" id="kDel">Sil</button></div>
-  </div></div>`;
-  let lab = k.lab || "";
-  host.querySelectorAll("[data-lab]").forEach(b => b.onclick = () => { lab = b.dataset.lab; host.querySelectorAll("[data-lab]").forEach(x => x.setAttribute("aria-pressed", x === b)); });
-  const commit = () => { const v = $("#kT").value.trim(); if (v) k.t = v; k.lab = lab; save(); };
-  host.querySelectorAll("[data-mv]").forEach(b => b.onclick = () => { commit(); moveCard(k.id, b.dataset.mv); host.innerHTML = ""; sheetBoard(); });
-  $("#kSave").onclick = () => { commit(); host.innerHTML = ""; sheetBoard(); };
-  $("#kDel").onclick = () => { B().cards = B().cards.filter(x => x.id !== k.id); save(); host.innerHTML = ""; sheetBoard(); };
-  $("#kGo") && ($("#kGo").onclick = () => { commit(); host.innerHTML = ""; startCard(k.id); });
-  host.querySelector(".modal").onclick = e => { if (e.target.classList.contains("modal")){ commit(); host.innerHTML = ""; sheetBoard(); } };
-}
-function startCard(id){
-  const k = B().cards.find(x => x.id === id); if (!k) return;
-  if (rt.phase === "focus" || rt.phase === "over" || rt.phase === "paused") return toast("Önce bu seansı bitir");
-  if (k.col === "todo" && B().cols.find(c => c.id === "doing")) moveCard(k.id, "doing", 0);
-  if (S.mode === "arastir") S.mode = "klasik";
-  save();
-  $("#intent").value = k.t;
-  if (!isWide()) closeSheet(); else sheetBoard();
-  startFocus();
-}
-let dragging = null;
-document.addEventListener("touchmove", e => { if (dragging && dragging.active) e.preventDefault(); }, {passive:false});
-function bindDrag(el){
-  el.addEventListener("pointerdown", e => {
-    if (e.button > 0 || e.target.closest("button")) return;
-    const id = +el.dataset.card, sx = e.clientX, sy = e.clientY, touch = e.pointerType !== "mouse";
-    const d = dragging = {id, el, active:false, sx, sy, ghost:null, timer:null, moved:false};
-    const activate = () => {
-      if (dragging !== d) return;
-      d.active = true; const r = el.getBoundingClientRect();
-      d.dx = d.sx - r.left; d.dy = d.sy - r.top;
-      d.ghost = el.cloneNode(true); d.ghost.classList.add("ghost"); d.ghost.style.width = r.width + "px"; document.body.appendChild(d.ghost);
-      el.classList.add("hold"); navigator.vibrate && navigator.vibrate(15);
-      place(d.sx, d.sy);
-    };
-    if (touch) d.timer = setTimeout(activate, 260);
-    const place = (x, y) => {
-      d.ghost.style.left = (x - d.dx) + "px"; d.ghost.style.top = (y - d.dy) + "px";
-      const under = document.elementFromPoint(x, y), col = under && under.closest(".bcol[data-col]");
-      document.querySelectorAll(".bcol.over").forEach(c => c !== col && c.classList.remove("over"));
-      if (!col) return; col.classList.add("over");
-      const list = col.querySelector(".bcards"), others = [...list.querySelectorAll(".kcard:not(.hold)")];
-      const after = others.find(c => { const rr = c.getBoundingClientRect(); return y < rr.top + rr.height / 2; });
-      list.insertBefore(el, after || null);
-      const bd = $("#board"), br = bd.getBoundingClientRect();
-      if (x < br.left + 30) bd.scrollLeft -= 12; else if (x > br.right - 30) bd.scrollLeft += 12;
-      const sc = el.closest(".in"); if (sc){ if (y < 90) sc.scrollTop -= 10; else if (y > innerHeight - 90) sc.scrollTop += 10; }
-    };
-    const move = ev => {
-      if (dragging !== d) return;
-      if (!d.active){
-        if (Math.hypot(ev.clientX - sx, ev.clientY - sy) > 8){ if (touch){ clearTimeout(d.timer); end(); return; } activate(); } else return;
-      }
-      ev.preventDefault(); place(ev.clientX, ev.clientY);
-    };
-    const end = () => {
-      clearTimeout(d.timer);
-      removeEventListener("pointermove", move); removeEventListener("pointerup", up); removeEventListener("pointercancel", cancel);
-      if (dragging === d) dragging = null;
-    };
-    const up = () => {
-      const was = d.active; end();
-      if (!was){ editCard(id); return; }
-      d.ghost && d.ghost.remove(); el.classList.remove("hold");
-      document.querySelectorAll(".bcol.over").forEach(c => c.classList.remove("over"));
-      const col = el.closest(".bcol[data-col]"); if (!col) return sheetBoard();
-      const idx = [...col.querySelectorAll(".kcard")].indexOf(el);
-      const sc = $("#board").scrollLeft; moveCard(id, col.dataset.col, idx); sheetBoard(); $("#board").scrollLeft = sc;
-    };
-    const cancel = () => { if (d.active) return up(); end(); };
-    addEventListener("pointermove", move, {passive:false}); addEventListener("pointerup", up); addEventListener("pointercancel", cancel);
-  });
-}
 
 /* ---------- sudoku ---------- */
 const shuffle = a => { for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
@@ -2634,7 +2841,7 @@ function bindAccount(){
   $("#accOut") && ($("#accOut").onclick = () => A.signOut());
   $("#accDel") && ($("#accDel").onclick = () => {
     const host = $("#modalHost");
-    host.innerHTML = `<div class="modal"><div class="card"><h3>Hesabın silinsin mi?</h3><p class="note" style="text-align:center;margin:0">Hesabın ve buluttaki tüm verilerin (seanslar, plan, pano, karakter fotoğrafın) kalıcı olarak silinir. Geri alınamaz.</p>
+    host.innerHTML = `<div class="modal"><div class="card"><h3>Hesabın silinsin mi?</h3><p class="note" style="text-align:center;margin:0">Hesabın ve buluttaki tüm verilerin (seanslar, plan, karakter fotoğrafın) kalıcı olarak silinir. Geri alınamaz.</p>
       <div class="row" style="justify-content:center"><button class="ghost" id="adNo">Vazgeç</button><button class="big" id="adYes" style="min-width:120px;height:48px;font-size:18px">Sil</button></div></div></div>`;
     $("#adNo").onclick = () => host.innerHTML = "";
     $("#adYes").onclick = async () => { try { await A.deleteAccount(); } catch (er) { host.innerHTML = ""; msg(A.errorText(er)); } };
